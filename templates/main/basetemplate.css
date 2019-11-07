@@ -1,3 +1,7 @@
+body{
+  background-color: white;
+}
+
 .nav-link{
   color: white;
 }
@@ -80,13 +84,6 @@
 
 #social-button {
   background-color: orange;
-  display: inline-block;
-  float: left;
-  position: absolute;
-}
-
-.list-unstyled{
-  color: white;
 }
 
 .foot-link{
@@ -97,8 +94,13 @@
   color: orange;
 }
 
-#pule{
+#logoCesi{
   width: 100%;
+}
+
+#socialbtn {
+  display: inline-block;
+  width: 15%;
 }
 
 
@@ -427,29 +429,6 @@
   .sidebar-footer > a .notification {
     position: absolute;
     top: 0;
-  }
-
-  .badge-sonar {
-    display: inline-block;
-    background: #980303;
-    border-radius: 50%;
-    height: 8px;
-    width: 8px;
-    position: absolute;
-    top: 0;
-  }
-
-  .badge-sonar:after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    border: 2px solid #980303;
-    opacity: 0;
-    border-radius: 50%;
-    width: 100%;
-    height: 100%;
-    animation: sonar 1.5s infinite;
   }
 
   /*--------------------------page-content-----------------------------*/
