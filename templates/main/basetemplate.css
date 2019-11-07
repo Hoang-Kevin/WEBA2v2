@@ -103,7 +103,6 @@ body{
   width: 15%;
 }
 
-
 @keyframes swing {
     0% {
       transform: rotate(0deg);
