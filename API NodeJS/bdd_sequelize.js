@@ -41,11 +41,10 @@ const User = sequelize.define('utilisateurs', {
 //     });
 
 
-module.exports.select = function () {
-    User.findAll({
-        attributes: {exclude: ['createdAt', 'updatedAt']}
-    }).then(users => {
-        return JSON.stringify(users[0].dataValues)
-    });
+module.exports.select = function select() {
+    return User.findAll({
+        attributes: { exclude: ['createdAt', 'updatedAt'] }
+    })// .then(users => {
+    //     return JSON.stringify(users[0].dataValues)
+    // });
 }
-

@@ -7,10 +7,6 @@ var bdd = require('./bdd_sequelize')
 var hostname = 'localhost';
 var port = 3000;
 
-function test() {
-    res.json(bdd.select())
-}
-
 // Nous créons un objet de type Express. 
 var app = express();
 
@@ -18,12 +14,22 @@ var app = express();
 //C'est à partir de cet objet myRouter, que nous allons implémenter les méthodes. 
 var myRouter = express.Router();
 
-// Je vous rappelle notre route (/piscines).  
 myRouter.route('')
     // J'implémente les méthodes GET, PUT, UPDATE et DELETE
     // GET
-    .get(function (req, res) {
-        res.json(bdd.select())
+    .get(async function (req, res) {
+
+        var array = []
+        var result = bdd.select()
+        result.then(response => {
+            //console.log(response)
+            for (let i = 0; i < response.length; i++) {
+                array.push(response[i].dataValues)
+            }
+            console.log(array)
+            res.json(array)
+        })
+
     })
     //POST
     .post(function (req, res) {
