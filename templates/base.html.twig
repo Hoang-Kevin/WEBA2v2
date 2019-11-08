@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        
+
 
         <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/darkly/bootstrap.min.css" rel="stylesheet" integrity="sha384-w+8Gqjk9Cuo6XH9HKHG5t5I1VR4YBNdPt/29vwgfZR485eoEJZ8rJRbm3TR32P6k" crossorigin="anonymous">
@@ -13,12 +13,42 @@
     {% block stylesheets %}{% endblock %}
     </head>
     <body>
+    <script type="text/javascript">
+    var slideIndex = 1;
+    showSlides(slideIndex);
+
+    // Next/previous controls
+    function plusSlides(n) {
+      showSlides(slideIndex += n);
+    }
+
+    // Thumbnail image controls
+    function currentSlide(n) {
+      showSlides(slideIndex = n);
+    }
+
+    function showSlides(n) {
+      var i;
+      var slides = document.getElementsByClassName("mySlides");
+      var dots = document.getElementsByClassName("dot");
+      if (n > slides.length) {slideIndex = 1}
+      if (n < 1) {slideIndex = slides.length}
+      for (i = 0; i < slides.length; i++) {
+          slides[i].style.display = "none";
+      }
+      for (i = 0; i < dots.length; i++) {
+          dots[i].className = dots[i].className.replace(" active", "");
+      }
+      slides[slideIndex-1].style.display = "block";
+      dots[slideIndex-1].className += " active";
+    }
+    </script>
+    
         <!-- Import JS : JQuery, Popper, Bootstrap -->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-
 
         <!-- Upper navigation bar begin -->
         <header>
@@ -128,6 +158,12 @@
     </header>
     <!-- Upper navigation bar ends -->
 
+    <main>
+    <div class="container">
+        {% block body %}{% endblock %}
+    </div>
+    </main>
+
     <div class="page-wrapper chiller-theme toggled">
         <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
           <i class="fas fa-bars"></i>
@@ -173,15 +209,9 @@
                     <span>Boutique</span>
                   </a>
                 </li>
-                <li>
-                  <a href="#">
-                    <i class="fa fa-folder"></i>
-                    <span>Examples</span>
-                  </a>
-                </li>
               </ul>
             </div>
-
+            <center>
                   <p id="socialbtn">
                     <a href="https://twitter.com/GroupeCESI"><img id="instagram-button" src="{{ asset('images/instagram.svg') }}" style="property:white;"></a>
                     <a href="https://www.instagram.com/campus_cesi/"><img id="twitter-button" src="{{ asset('images/twitter.svg') }}"></a>
@@ -189,17 +219,13 @@
                     <a href="https://www.linkedin.com/company/groupe-cesi/"><img id="linkedin-button" src="{{ asset('images/linkedin.svg') }}"></a>
                     <a href="https://www.viadeo.com/fr/company/cesi"><img id="viadeo-button" src="{{ asset('images/facebook.svg') }}"></a>
                   </p>
-              </div>
+            </center>
           </div>
+
         </nav>
+      </div>
 
-        <!-- Sidebar ends -->
-
-        <!-- Main body of the page -->
-        <div class="container">
-            {% block body %}{% endblock %}
-        </div>
-
+</div>
 
         <!-- Footer -->
     <footer class="page-footer font-small stylish-color-dark pt-4">
@@ -256,7 +282,9 @@
 
     <div class="footer-copyright text-center py-3">© 2019 Copyright
         <a href="https://mdbootstrap.com/education/bootstrap/"></a>
+        <a class ="backtop" href="#">Back to top</a>
     </div>
+
 
 </footer>
 

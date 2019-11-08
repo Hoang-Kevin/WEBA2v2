@@ -1,5 +1,9 @@
+.navbar-brand{
+  background-color: #303030;
+}
+
 body{
-  background-color: green;
+  background-color: white;
 }
 
 .nav-link{
@@ -23,6 +27,7 @@ body{
   color: white;
   position: relative;
   display: inline-block;
+  right: 200%;
 }
 
 .dropdown-content {
@@ -32,7 +37,7 @@ body{
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
-  left: -50%;
+  left: -100%;
 }
 
 .dropdown-content button {
@@ -82,8 +87,9 @@ body{
   background-color: #303030;
 }
 
-#social-button {
-  background-color: orange;
+#socialbtn {
+ position: relative;
+  font-size: 30px;
 }
 
 .foot-link{
@@ -96,6 +102,18 @@ body{
 
 #logoCesi{
   width: 100%;
+}
+
+.footer-copyright{
+  color: white;
+}
+
+.backtop{
+  color: orange;
+}
+
+.backtop:hover{
+  color: orange;
 }
 
 #socialbtn {
