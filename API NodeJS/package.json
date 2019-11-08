@@ -14,10 +14,11 @@
         "url": "https://github.com/Hoang-Kevin/WEBA2/issues"
     },
     "dependencies": {
+        "body-parser": "^1.19.0",
         "express": "^4.17.1",
+        "jsonwebtoken": "^8.5.1",
         "mysql": "^2.17.1",
         "mysql2": "^2.0.0",
-        "reverse-md5": "0.0.4",
         "sequelize": "^5.21.2"
     }
 }
