@@ -19,18 +19,22 @@ module.exports.Inscription = sequelize.define('inscriptions', {
     timestamps: false
 })
 
-module.exports.User = sequelize.define('utilisateurs', {
+module.exports.User = sequelize.define('users', {
     // attributes
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    nom: {
+    roles_id: {
+        type: Sequelize.INTEGER,
+        foreignKey: true,
+    },
+    name: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    prenom: {
+    firstname: {
         type: Sequelize.STRING,
         allowNull: false
     },

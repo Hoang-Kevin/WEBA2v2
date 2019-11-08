@@ -2,6 +2,7 @@ const tables = require('./enumTables');
 const bdd = require('./BDDConnect')
 const express = require('express');
 const bodyparser = require('body-parser')
+const jsToken = require('jsonwebtoken')
 
 // Nous définissons ici les paramètres du serveur.
 const hostname = 'localhost';
@@ -21,7 +22,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+'])
             var uri = req.path.split('/')
             var result = bdd.select(tables.table(uri[1]), uri[2])
             result.then(response => {
-                  console.log(response)
+                  //console.log(response)
                   //console.log(response.lenght)
                   if (!uri[2]) {
                         for (let i = 0; i < response.length; i++) {
@@ -64,11 +65,18 @@ app.listen(port, hostname, function () {
 
 
 function connect(req, res) {
+      var result = {}
       bdd.connect(tables.table(req.path.split('/')[1]), req.body)
             .then(function (response) {
                   if (response) {
-                        console.log('c bon ')
-                        res.json({ connect: true, methode: req.method });
+                        status = 200
+                        const payload = { mail: response.dataValues.mail }
+                        const options = { expiresIn: "2h" }
+                        const secret = "yo mec"
+                        const token = { payload, secret, options }
+                        result.token = token
+                        result.status = status
+                        res.status(status).json(result)
                   } else {
                         res.json({ connect: false })
                   }
