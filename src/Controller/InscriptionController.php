@@ -2,13 +2,14 @@
 
 namespace App\Controller;
 
-use OC\PlatformBundle\Entity\Advert;
+use OC\PlatformBundle\Entity\Personne;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Request;
 
 class InscriptionController extends Controller
 {
@@ -37,7 +38,7 @@ class InscriptionController extends Controller
 
     // On passe la méthode createView() du formulaire à la vue
     // afin qu'elle puisse afficher le formulaire toute seule
-    return $this->render('OCPlatformBundle:Advert:add.html.twig', array(
+    return $this->render('OCPlatformBundle:Personne:add.html.twig', array(
       'form' => $form->createView(),
     ));
   }
