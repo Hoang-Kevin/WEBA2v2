@@ -23,18 +23,18 @@ module.exports.select = function (table, id) {
 
 module.exports.connect = function (table, jsonData) {
     console.log(jsonData.mail)
-    return table.findOne({ where: { mail: jsonData.mail, mdp: jsonData.mdp } })
+    return table.findOne({ where: { mail: jsonData.adressemail, mdp: jsonData.motdepasse } })
 }
 module.exports.add = function (table, jsonData, res) {
     switch (table.name) {
-        case "users":
-            console.log("c bon")
+        case "personne":
+            //console.log("c bon")
             table.findOne({ where: { mail: jsonData.mail } })
                 .then(function (user) {
                     if (!user) {
                         console.log("pk sa bug")
-                        table.create({ roles_id: jsonData.roles_id, name: jsonData.name, firstname: jsonData.firstname, mail: jsonData.mail, mdp: jsonData.mdp, localisation: jsonData.localisation })
-                        res.json({ inscription: "réussi" })
+                        table.create({ roles_id: jsonData.id_role, name: jsonData.nom, firstname: jsonData.prenom, adressemail: jsonData.mail, mdp: jsonData.motdepasse, localisation: jsonData.localisation, campus: jsonData.campus })
+                        res.json({ inscription: "reussi" })
                     } else {
                         //return false
                     }

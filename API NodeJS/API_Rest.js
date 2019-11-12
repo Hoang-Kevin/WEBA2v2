@@ -17,7 +17,7 @@ app.use(bodyparser.json({ extended: true }))
 var myRouter = express.Router();
 
 // FAUT REGARDER https://scotch.io/tutorials/authenticate-a-node-es6-api-with-json-web-tokens#toc-setup
-myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique', '/activities'])
+myRouter.route(['/personne', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique', '/activities'])
       // GET
       .get(function (req, res) {
             var uri = req.path.split('/')
@@ -64,7 +64,7 @@ myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique
                                     res.json({ role: response[0][0]['role.name'] })
                               })
                   } else if (req.body.inscription == "true") {
-                        console.log("bonjour "+ table)
+                        //console.log("bonjour " + table)
                         bdd.add(table, req.body, res)
                   }
             }

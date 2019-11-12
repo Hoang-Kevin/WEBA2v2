@@ -1,29 +1,29 @@
 const connection = require('./config')
 const Sequelize = require('sequelize')
 
-module.exports.User = connection.sequelize.define('users', {
+module.exports.User = connection.sequelize.define('personne', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    roles_id: {
+    id_role: {
         type: Sequelize.STRING,
         foreignKey: true
     },
-    name: {
+    nom: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    firstname: {
+    prenom: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    mail: {
+    adressemail: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    mdp: {
+    motdepasse: {
         type: Sequelize.STRING,
         allowNull: false
     },
@@ -94,15 +94,14 @@ module.exports.Products = connection.sequelize.define('products', {
     timestamps: false
 })
 
-module.exports.Activities = connection.sequelize.define('activities', {
+module.exports.Activities = connection.sequelize.define('activite', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    users_id: {
-        type: Sequelize.INTEGER,
-        foreignKey: true,
+    description: {
+        type: Sequelize.STRING,
         allowNull: true,
     },
     date: {

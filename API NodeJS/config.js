@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize')
 
-const dbName = 'users'
+const dbName = 'WEBA2v2'
 const username = 'root'
 const password = ''
 const host = 'localhost'
