@@ -1,3 +1,7 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -43,7 +47,44 @@
       dots[slideIndex-1].className += " active";
     }
     </script>
-    
+
+
+
+  <script type="text/javascript">
+    jQuery(function ($) {
+
+        $(".sidebar-dropdown > a").click(function() {
+      $(".sidebar-submenu").slideUp(200);
+      if (
+        $(this)
+          .parent()
+          .hasClass("active")
+      ) {
+        $(".sidebar-dropdown").removeClass("active");
+        $(this)
+          .parent()
+          .removeClass("active");
+      } else {
+        $(".sidebar-dropdown").removeClass("active");
+        $(this)
+          .next(".sidebar-submenu")
+          .slideDown(200);
+        $(this)
+          .parent()
+          .addClass("active");
+      }
+    });
+
+    $("#close-sidebar").click(function() {
+      $(".page-wrapper").removeClass("toggled");
+    });
+    $("#show-sidebar").click(function() {
+      $(".page-wrapper").addClass("toggled");
+    });
+
+    });
+  </script>
+
         <!-- Import JS : JQuery, Popper, Bootstrap -->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -166,7 +207,7 @@
 
     <div class="page-wrapper chiller-theme toggled">
         <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
-          <i class="fas fa-bars"></i>
+          <i class="fas fa-bars"> Image</i>
         </a>
         <!-- Sidebar begin-->
         <nav id="sidebar" class="sidebar-wrapper">
@@ -174,14 +215,11 @@
             <div class="sidebar-brand">
               <a href="#"><img id="logoCesi" src="{{ asset('images/logoCESI.png') }}"></a>
               <div id="close-sidebar">
-                <i class="fas fa-times"></i>
+                <i class="fas fa-times"> Image</i>
               </div>
             </div>
             <div class="sidebar-header">
-              <div class="user-pic">
-                <img class="img-responsive img-rounded" src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg"
-                  alt="User picture">
-              </div>
+
               <div class="user-info">
                 <span class="user-name">Jhon
                   <strong>Smith</strong>
@@ -196,7 +234,6 @@
 
             <div class="sidebar-menu">
               <ul>
-
                 <li>
                   <a href="#">
                     <i class="fa fa-book"></i>
@@ -221,11 +258,8 @@
                   </p>
             </center>
           </div>
-
         </nav>
       </div>
-
-</div>
 
         <!-- Footer -->
     <footer class="page-footer font-small stylish-color-dark pt-4">
@@ -273,9 +307,7 @@
             </li>
             </ul>
         </div>
-
-        </div>
-
+      </div>
     </div>
 
     <hr>

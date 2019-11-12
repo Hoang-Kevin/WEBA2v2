@@ -13,6 +13,12 @@ padding: 15px;
     left: 10px;
 }
 
+.heroContent {
+    padding-left: 100px;
+    padding-right: 150px;
+}
+
+
 #titre{
   font-size: 30px;
   color: white;
