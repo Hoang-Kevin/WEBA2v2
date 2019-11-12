@@ -62,7 +62,7 @@ class InscriptionController extends AbstractController
 		
 			$result = json_decode($return);
 			
-			return $result
+			return $result;
 		}
 	}
 	
