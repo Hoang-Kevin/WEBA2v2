@@ -7,7 +7,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+      <title>{% block title %}BDE Cesi{% endblock %}</title>
 
 
         <!-- Bootstrap CSS -->
@@ -17,73 +17,9 @@
     {% block stylesheets %}{% endblock %}
     </head>
     <body>
-    <script type="text/javascript">
-    var slideIndex = 1;
-    showSlides(slideIndex);
 
-    // Next/previous controls
-    function plusSlides(n) {
-      showSlides(slideIndex += n);
-    }
-
-    // Thumbnail image controls
-    function currentSlide(n) {
-      showSlides(slideIndex = n);
-    }
-
-    function showSlides(n) {
-      var i;
-      var slides = document.getElementsByClassName("mySlides");
-      var dots = document.getElementsByClassName("dot");
-      if (n > slides.length) {slideIndex = 1}
-      if (n < 1) {slideIndex = slides.length}
-      for (i = 0; i < slides.length; i++) {
-          slides[i].style.display = "none";
-      }
-      for (i = 0; i < dots.length; i++) {
-          dots[i].className = dots[i].className.replace(" active", "");
-      }
-      slides[slideIndex-1].style.display = "block";
-      dots[slideIndex-1].className += " active";
-    }
-    </script>
-
-
-
-  <script type="text/javascript">
-    jQuery(function ($) {
-
-        $(".sidebar-dropdown > a").click(function() {
-      $(".sidebar-submenu").slideUp(200);
-      if (
-        $(this)
-          .parent()
-          .hasClass("active")
-      ) {
-        $(".sidebar-dropdown").removeClass("active");
-        $(this)
-          .parent()
-          .removeClass("active");
-      } else {
-        $(".sidebar-dropdown").removeClass("active");
-        $(this)
-          .next(".sidebar-submenu")
-          .slideDown(200);
-        $(this)
-          .parent()
-          .addClass("active");
-      }
-    });
-
-    $("#close-sidebar").click(function() {
-      $(".page-wrapper").removeClass("toggled");
-    });
-    $("#show-sidebar").click(function() {
-      $(".page-wrapper").addClass("toggled");
-    });
-
-    });
-  </script>
+    <script type="text/javascript" src="{{ asset('js/caroussel.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/sidebar.js') }}"></script>
 
         <!-- Import JS : JQuery, Popper, Bootstrap -->
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -94,7 +30,7 @@
         <!-- Upper navigation bar begin -->
         <header>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="#">BDE</a>
+                <a class="navbar-brand" href="#">BDE Cesi</a>
                 <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span></button>
 
