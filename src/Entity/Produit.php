@@ -31,6 +31,11 @@ class Produit
      */
     private $prix;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Categorie")
+     */
+    private $id_categorie;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -68,6 +73,18 @@ class Produit
     public function setPrix(float $prix): self
     {
         $this->prix = $prix;
+
+        return $this;
+    }
+
+    public function getIdCategorie(): ?Categorie
+    {
+        return $this->id_categorie;
+    }
+
+    public function setIdCategorie(?Categorie $id_categorie): self
+    {
+        $this->id_categorie = $id_categorie;
 
         return $this;
     }

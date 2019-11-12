@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CommandeRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\InscrireRepository")
  */
-class Commande
+class Inscrire
 {
     /**
      * @ORM\Id()
@@ -17,9 +17,10 @@ class Commande
     private $id;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Activite")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $valide;
+    private $id_activite;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Personne")
@@ -32,14 +33,14 @@ class Commande
         return $this->id;
     }
 
-    public function getValide(): ?bool
+    public function getIdActivite(): ?Activite
     {
-        return $this->valide;
+        return $this->id_activite;
     }
 
-    public function setValide(bool $valide): self
+    public function setIdActivite(?Activite $id_activite): self
     {
-        $this->valide = $valide;
+        $this->id_activite = $id_activite;
 
         return $this;
     }

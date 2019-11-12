@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CommandeRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\CommenterRepository")
  */
-class Commande
+class Commenter
 {
     /**
      * @ORM\Id()
@@ -17,9 +17,9 @@ class Commande
     private $id;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="string", length=255)
      */
-    private $valide;
+    private $commentaire;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Personne")
@@ -32,14 +32,14 @@ class Commande
         return $this->id;
     }
 
-    public function getValide(): ?bool
+    public function getCommentaire(): ?string
     {
-        return $this->valide;
+        return $this->commentaire;
     }
 
-    public function setValide(bool $valide): self
+    public function setCommentaire(string $commentaire): self
     {
-        $this->valide = $valide;
+        $this->commentaire = $commentaire;
 
         return $this;
     }
