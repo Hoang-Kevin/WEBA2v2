@@ -24,6 +24,43 @@ class MainController extends AbstractController
         return $this->render('main/home.html.twig', [
             'Title' => "Bonjour, bonjour"
 
+
+        ]);
+
+    }
+
+    /**
+     *  @Route("/boutique"), name="boutique")
+     */
+    public function boutique() {
+        return $this->render('main/boutique.html.twig', [
+            'Title' => "Bonjour, bonjour"
+
+
+        ]);
+
+    }
+
+    /**
+     *  @Route("/inscription"), name="inscription")
+     */
+    public function inscription() {
+        return $this->render('main/inscription.html.twig', [
+            'Title' => "Bonjour, bonjour"
+
+
+        ]);
+
+    }
+
+    /**
+     *  @Route("/evenement"), name="evenement")
+     */
+    public function evenement() {
+        return $this->render('main/evenement.html.twig', [
+            'Title' => "Bonjour, bonjour"
+
+
         ]);
 
     }
