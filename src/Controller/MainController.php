@@ -4,14 +4,11 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
-
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpClient\CurlHttpClient;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Personne;
 
 class MainController extends AbstractController
@@ -53,66 +50,48 @@ class MainController extends AbstractController
     /**
      *  @Route("/inscription"), name="inscription")
      */
-    public function inscription() {
-
-
-        // On crée un objet Personne
-    $personne = new Personne();
-
-    // On crée le FormBuilder grâce au service form factory
-    $formBuilder = $this->get('form.factory')->createBuilder(FormType::class, $personne);
-
-    // On ajoute les champs de l'entité que l'on veut à notre formulaire
-    $formBuilder
-      ->add('identifiant',      TextType::class)
-      ->add('nom',     TextType::class)
-      ->add('prenom',   TextType::class)
-      ->add('localisation',    TextType::class)
-      ->add('campus', TextType::class)
-	  ->add('adresse email', EmailType::class)
-	  ->add('mot de passe', PasswordType::class)
-      ->add('valider',      SubmitType::class)
-    ;
-	
-    // À partir du formBuilder, on génère le formulaire
-    $form = $formBuilder->getForm();
-	
-	// Si la requête est en POST
-    if ($request->isMethod('POST')) {
-		// On fait le lien Requête <-> Formulaire
-		// À partir de maintenant, la variable $advert contient les valeurs entrées dans le formulaire par le visiteur
-		$form->handleRequest($request);	
-		// On vérifie que les valeurs entrées sont correctes
-		if ($form->isValid()) {
-			$login["data"]=json_encode($personne,FORCE_JSON_OBJECT);
-			$url = 'htpp://localhost:3000/users';
+    public function inscription(Request $resquest, ObjectManager $manager) {
 		
-			//On ouvre une connexion avec l'API
-			$open_co=curl_init();
+		//création d'un object personne vide
+		$personne = new Personne();
 		
-			curl_setopt($open_co,CURLOPT_URL,$url); 
-			curl_setopt($open_co,CURLOPT_POST,true);
-			curl_setopt($open_co,CURLOPT_POSTFIELDS,$login);
+		//
+		$form = $this->createFormBuilder($personne)
+					 ->add('nom', TextType::class, [
+							'attr'=>[
+								'placeholder'=>"Flantier"
+							]
+						])
+					 ->add('prenom', TextType::class, [
+							'attr'=>[
+								'placeholder'=>"Noël"
+							]
+						])
+					 ->add('localisation', TextType::class, [
+							'attr'=>[
+								'placeholder'=>"Roubaix"
+							]
+						])
+					 ->add('campus', TextType::class, [
+							'attr'=>[
+								'placeholder'=>"Lille"
+							]
+						])
+					 ->add('adressemail', EmailType::class, [
+							'attr'=>[
+								'placeholder'=>"noel.flantier@viacesi.fr"
+							]
+						])
+					 ->add('password', PasswordType::class, [
+							'attr'=>[
+								'placeholder'=>"IUhjdq90"
+							]
+						])
+					 ->getForm();
 		
-			$return = curl_exec($open_co);
-		
-			//On ferme la connexion 
-			curl_close($open_co);
-		
-			$result = json_decode($return);
-			
-			return $result;
-		}
-	}
-
-
-
-        return $this->render('main/inscription.html.twig', array(
-            'form' => $form->createView()
-
-
-        ));
-
+        return $this->render('main/inscription.html.twig', [
+            'formInscription' => $form->createView()
+		]);
     }
 
     /**
