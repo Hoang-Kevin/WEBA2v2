@@ -19,21 +19,57 @@ class Photo
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $id_photo;
+    private $urlphoto;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Personne")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $id_personne;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Activite")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $id_activite;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getIdPhoto(): ?string
+    public function getUrlphoto(): ?string
     {
-        return $this->id_photo;
+        return $this->urlphoto;
     }
 
-    public function setIdPhoto(string $id_photo): self
+    public function setUrlphoto(string $urlphoto): self
     {
-        $this->id_photo = $id_photo;
+        $this->urlphoto = $urlphoto;
+
+        return $this;
+    }
+
+    public function getIdPersonne(): ?Personne
+    {
+        return $this->id_personne;
+    }
+
+    public function setIdPersonne(?Personne $id_personne): self
+    {
+        $this->id_personne = $id_personne;
+
+        return $this;
+    }
+
+    public function getIdActivite(): ?Activite
+    {
+        return $this->id_activite;
+    }
+
+    public function setIdActivite(?Activite $id_activite): self
+    {
+        $this->id_activite = $id_activite;
 
         return $this;
     }

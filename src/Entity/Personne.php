@@ -44,7 +44,13 @@ class Personne
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $password;
+    private $motdepasse;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Role")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $id_role;
 
     public function getId(): ?int
     {
@@ -111,14 +117,26 @@ class Personne
         return $this;
     }
 
-    public function getPassword(): ?string
+    public function getMotdepasse(): ?string
     {
-        return $this->password;
+        return $this->motdepasse;
     }
 
-    public function setPassword(string $password): self
+    public function setMotdepasse(string $motdepasse): self
     {
-        $this->password = $password;
+        $this->motdepasse = $motdepasse;
+
+        return $this;
+    }
+
+    public function getIdRole(): ?Role
+    {
+        return $this->id_role;
+    }
+
+    public function setIdRole(?Role $id_role): self
+    {
+        $this->id_role = $id_role;
 
         return $this;
     }
