@@ -85,4 +85,17 @@ class MainController extends AbstractController
         ]);
 
     }
+
+
+    /**
+     *  @Route("/connexion"), name="connexion")
+     */
+    public function connexion() {
+        return $this->render('main/connexion.html.twig', [
+            'Title' => "Bonjour, bonjour"
+
+
+        ]);
+
+    }
 }
