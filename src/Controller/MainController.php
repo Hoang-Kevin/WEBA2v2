@@ -62,15 +62,15 @@ class MainController extends AbstractController
 					 ->add('localisation', TextType::class)
 					 ->add('campus', TextType::class)
 					 ->add('adressemail', EmailType::class)
-					 ->add('password', PasswordType::class)
+					 ->add('motdepasse', PasswordType::class)
 					 ->getForm();
 					 
 		$form->handleRequest($request);
-		
+			
 		dump($personne);
 		
 		if($form->isSubmitted() && $form->isValid()) {
-			
+					
 			$login["data"]=json_encode($personne);
 			$url = 'htpp://localhost:3000/users';
 			
