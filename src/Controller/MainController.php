@@ -51,7 +51,7 @@ class MainController extends AbstractController
     /**
      *  @Route("/inscription"), name="inscription")
      */
-    public function inscription(Request $resquest, ObjectManager $manager) {
+    public function inscription(Request $request, ObjectManager $manager) {
 		
 		//création d'un object personne vide
 		$personne = new Personne();
@@ -64,6 +64,10 @@ class MainController extends AbstractController
 					 ->add('adressemail', EmailType::class)
 					 ->add('password', PasswordType::class)
 					 ->getForm();
+					 
+		$form->handleRequest($request);
+		
+		dump($personne);
 		
         return $this->render('main/inscription.html.twig', [
             'formInscription' => $form->createView()
