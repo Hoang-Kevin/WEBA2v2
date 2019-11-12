@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use OC\PlatformBundle\Entity\Personne;
+use App\Entity\Personne;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
