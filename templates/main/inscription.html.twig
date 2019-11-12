@@ -2,10 +2,23 @@
 
 {% block title %}Hello MainController!{% endblock %}
 
+{% form_theme formInscription 'bootstrap_4_Layout.html.twig' %}
+
 {% block body %}
 
 	<h3>Formulaire d'inscription</h3>
 
-	{{ form(formInscription) }}
+	{{ form_start(formInscription) }}
+
+	{{ form_row(formInscription.nom,{'attr': {'placeholder': "Flantier"}}) }}
+	{{ form_row(formInscription.prenom,{'attr': {'placeholder': "Noël"}}) }}
+	{{ form_row(formInscription.localisation,{'attr': {'placeholder': "126 Boulevard de la Liberté 59000 Lille"}}) }}
+	{{ form_row(formInscription.campus,{'attr': {'placeholder': "Lille"}}) }}
+	{{ form_row(formInscription.adressemail,{'attr': {'placeholder': "noel.flantier@viacesi.fr"}}) }}
+	{{ form_row(formInscription.password,{'attr': {'placeholder': "Idilj87"}}) }}
+	
+	<button type="submit" class="btn btn-sucess">S'inscrire</button>
+	
+	{{ form_end(formInscription) }}
 
 {% endblock %}
