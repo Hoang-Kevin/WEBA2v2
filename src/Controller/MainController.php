@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Personne;
 
@@ -50,44 +51,23 @@ class MainController extends AbstractController
     /**
      *  @Route("/inscription"), name="inscription")
      */
-    public function inscription(Request $resquest, ObjectManager $manager) {
+    public function inscription(Request $request, ObjectManager $manager) {
 		
 		//création d'un object personne vide
 		$personne = new Personne();
 		
-		//
 		$form = $this->createFormBuilder($personne)
-					 ->add('nom', TextType::class, [
-							'attr'=>[
-								'placeholder'=>"Flantier"
-							]
-						])
-					 ->add('prenom', TextType::class, [
-							'attr'=>[
-								'placeholder'=>"Noël"
-							]
-						])
-					 ->add('localisation', TextType::class, [
-							'attr'=>[
-								'placeholder'=>"Roubaix"
-							]
-						])
-					 ->add('campus', TextType::class, [
-							'attr'=>[
-								'placeholder'=>"Lille"
-							]
-						])
-					 ->add('adressemail', EmailType::class, [
-							'attr'=>[
-								'placeholder'=>"noel.flantier@viacesi.fr"
-							]
-						])
-					 ->add('password', PasswordType::class, [
-							'attr'=>[
-								'placeholder'=>"IUhjdq90"
-							]
-						])
+					 ->add('nom', TextType::class)
+					 ->add('prenom', TextType::class)
+					 ->add('localisation', TextType::class)
+					 ->add('campus', TextType::class)
+					 ->add('adressemail', EmailType::class)
+					 ->add('password', PasswordType::class)
 					 ->getForm();
+					 
+		$form->handleRequest($request);
+		
+		dump($personne);
 		
         return $this->render('main/inscription.html.twig', [
             'formInscription' => $form->createView()
