@@ -1,8 +1,10 @@
-const tables = require('./enumTables');
+
+const enumTable = require('./enumTable');
 const bdd = require('./BDDConnect')
 const express = require('express');
 const bodyparser = require('body-parser')
-const jsToken = require('jsonwebtoken')
+const jsToken = require('njwt')
+const secret = "5[:8j£NQ4Vcj"
 
 // Nous définissons ici les paramètres du serveur.
 const hostname = 'localhost';
@@ -14,48 +16,68 @@ app.use(bodyparser.json({ extended: true }))
 //C'est à partir de cet objet myRouter, que nous allons implémenter les méthodes.
 var myRouter = express.Router();
 
-
-myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+'])
+// FAUT REGARDER https://scotch.io/tutorials/authenticate-a-node-es6-api-with-json-web-tokens#toc-setup
+myRouter.route(['/users', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique', '/activities'])
       // GET
       .get(function (req, res) {
-            var array = []
             var uri = req.path.split('/')
-            var result = bdd.select(tables.table(uri[1]), uri[2])
-            result.then(response => {
-                  //console.log(response)
-                  //console.log(response.lenght)
-                  if (!uri[2]) {
-                        for (let i = 0; i < response.length; i++) {
-                              array.push(response[i].dataValues)
-                              //console.log("bite")
-                        }
-                        console.log(array)
-                        res.json(array)
+            var table = uri[1]
+            var table = enumTable.table(table)
+            var id = uri[2]
+            var array = []
+            if (table == "boutique" || table == "activities") {
+                  bdd.select(table)
+                        .then(response => {
+                              res.json(response[0].dataValues)
+                        })
+            } else {
+                  if (req.body.token) {
+                        bdd.select(table, id)
+                              .then(response => {
+                                    if (response.lenght) {
+                                          for (let i = 0; i < response.lenght; i++) {
+                                                array.push(response[i].dataValues)
+                                          }
+                                    } else {
+                                          array.push(response.dataValues)
+                                    }
+                                    res.json(array)
+                              })
                   } else {
-                        res.json(response.dataValues)
+                        res.json({ message: false })
                   }
-            })
+            }
       })
-
       //POST
       .post(function (req, res) {
+            var uri = req.path.split('/')
+            var table = uri[1]
+            var table = enumTable.table(table)
             if (req.query.connect == "true") {
+                  console.log(req.body.mail)
                   connect(req, res)
             } else {
-                  bdd.add(tables.table(req.path.split('/')[1]), req.body)
+                  if (req.body.token) {
+                        var mail = decodeToken(req.body.token)
+                        bdd.verifRole(mail)
+                              .then(response => {
+                                    res.json({ role: response[0][0]['role.name'] })
+                              })
+                  } else if (req.body.inscription == "true") {
+                        console.log("bonjour "+ table)
+                        bdd.add(table, req.body, res)
+                  }
             }
       })
       //PUT
       .put(function (req, res) {
-            bdd.modify(tables.table(req.path.split('/')[1]), req.body)
-            res.json({ message: "Mise à jour des informations d'une piscine dans la liste", methode: req.method });
+            bdd.modify(enumTable.table(req.path.split('/')[1]), req.body, res)
       })
       //DELETE
       .delete(function (req, res) {
-            bdd.delete(tables.table(req.path.split('/')[1]), req.body)
+            bdd.delete(enumTable.table(req.path.split('/')[1]), req.body)
             res.json({ message: "Suppression d'une piscine dans la liste", methode: req.method });
       });
-
 // Nous demandons à l'application d'utiliser notre routeur
 app.use(myRouter);
 // Démarrer le serveur 
@@ -66,14 +88,14 @@ app.listen(port, hostname, function () {
 
 function connect(req, res) {
       var result = {}
-      bdd.connect(tables.table(req.path.split('/')[1]), req.body)
+      bdd.connect(enumTable.table(req.path.split('/')[1]), req.body)
             .then(function (response) {
                   if (response) {
                         status = 200
-                        const payload = { mail: response.dataValues.mail }
-                        const options = { expiresIn: "2h" }
-                        const secret = "yo mec"
-                        const token = { payload, secret, options }
+
+                        const payload = { "mail": response.dataValues.mail }
+                        var token = jsToken.create(payload, secret, "HS256")
+                        token = token.compact()
                         result.token = token
                         result.status = status
                         res.status(status).json(result)
@@ -81,4 +103,10 @@ function connect(req, res) {
                         res.json({ connect: false })
                   }
             })
+}
+// Pour l'instant on considère que le token se trouve dans le body
+function decodeToken(token) {
+      var decodedToken = jsToken.verify(token, secret, "HS256")
+      decodedMail = decodedToken.body.mail
+      return decodedMail;
 }
