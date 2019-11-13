@@ -3,7 +3,7 @@
 }
 
 body{
-  background-color: green; 
+  background-color: green;
 }
 
 .nav-link{
@@ -119,6 +119,10 @@ body{
 #socialbtn {
   display: inline-block;
   width: 15%;
+}
+
+#siderbartext:hover{
+  color: orange;
 }
 
 @keyframes swing {
