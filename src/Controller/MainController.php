@@ -129,4 +129,41 @@ class MainController extends AbstractController
         ]);
 
     }
+
+        /**
+     *  @Route("/mentions"), name="mentions")
+     */
+    public function mentions() {
+        return $this->render('main/mentions.html.twig', [
+            'Title' => "Bonjour, bonjour"
+
+
+        ]);
+
+    }
+
+        /**
+     *  @Route("/pdc"), name="pdc")
+     */
+    public function pdc() {
+        return $this->render('main/pdc.html.twig', [
+            'Title' => "Bonjour, bonjour"
+
+
+        ]);
+
+    }
+
+        /**
+     *  @Route("/cgv"), name="cgv")
+     */
+    public function cgv() {
+        return $this->render('main/cgv.html.twig', [
+            'Title' => "Bonjour, bonjour"
+
+
+        ]);
+
+    }
+
 }
