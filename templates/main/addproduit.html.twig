@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AJOUTER PRODUIT{% endblock %}
+
+{% form_theme formAddProduit 'bootstrap_4_Layout.html.twig' %}
+
+{% block body %}
+
+<div class="background">
+	<h3>Formulaire ajouter un produit</h3>
+
+	{{ form_start(formAddProduit) }}
+
+	{{ form_row(formAddProduit.nom,{'attr': {'placeholder': "Pull Sucepute"}}) }}
+	{{ form_row(formAddProduit.description,{'attr': {'placeholder': "Pull de la marque d'Alkapote Sucepute 100% coton"}}) }}
+	{{ form_row(formAddProduit.prix,{'attr': {'placeholder': "35"}}) }}
+	{{ form_row(formAddProduit.id_categorie,{'attr': {'placeholder': "3"}}) }}
+
+	<button type="submit" class="btn btn-sucess">Ajouter Produit</button>
+
+	{{ form_end(formAddProduit) }}
+
+</div>
+{% endblock %}

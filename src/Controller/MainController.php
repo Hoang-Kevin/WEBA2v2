@@ -8,9 +8,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\HttpClient\CurlHttpClient;
 use App\Entity\Personnes;
+use App\Entity\Produits;
 
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
@@ -53,6 +56,50 @@ class MainController extends AbstractController
 
         ]);
 
+    }
+	
+    /**
+     *  @Route("/boutique/add"), name="boutique")
+     */
+    public function addboutique() {
+		
+		//création d'un object produit vide
+		$produit = new Produits();
+		
+		//paramètre du formulaire relier aux attributs de l'object produit
+		$form = $this->createFormBuilder($produit)
+					 ->add('nom', TextType::class)
+					 ->add('description', TextareaType::class)
+					 ->add('prix', MoneyType::class)
+					 ->add('id_categorie', IntegerType::class)
+					 ->getForm();
+					 
+		//envoie le formulaire pour le construire sur la page web
+        return $this->render('main/addproduit.html.twig', [
+            'formAddProduit' => $form->createView()
+		]);
+    }
+	
+    /**
+     *  @Route("/boutique/modif"), name="boutique")
+     */
+    public function modifboutique() {
+		
+		//création d'un object personne vide
+		$produit = new Produits();
+		
+		//paramètre du formulaire relier aux attributs de l'object Personne
+		$form = $this->createFormBuilder($produit)
+					 ->add('nom', TextType::class)
+					 ->add('description', TextareaType::class)
+					 ->add('prix', MoneyType::class)
+					 ->add('id_categorie', IntegerType::class)
+					 ->getForm();
+					 
+		//envoie le formulaire pour le construire sur la page web
+        return $this->render('main/modifproduit.html.twig', [
+            'formModifProduit' => $form->createView()
+		]);
     }
 
     /**
