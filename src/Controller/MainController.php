@@ -112,6 +112,9 @@ class MainController extends AbstractController
 				?>
 				<script>alert("inscription réussi !")</script>
 				<?php
+				header("Status: 301 Moved Permanently", false, 301);
+				header('Location : /connexion');
+				exit;
 			}
 			else
 			{
@@ -183,7 +186,16 @@ class MainController extends AbstractController
 			$result = json_decode($return);
 			
 			//retourne si la connexion à réussi le token
-			if(!$result){die("Error : Connection Echoué !");}
+			if($result['token']==NULL){
+				die("Error : Connection Failure");
+			}
+			else
+			{
+				header("Status: 301 Moved Permanently", false, 301);
+				header('Location : /');
+				exit;				
+			}
+		
 			curl_close($curl);		
 		}
 
