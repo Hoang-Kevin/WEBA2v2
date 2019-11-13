@@ -2,6 +2,10 @@
 
 {% block title %}INSCRIPTION{% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/inscription.css') }}" media="all" />
+{% endblock %}
+
 {% form_theme formInscription 'bootstrap_4_Layout.html.twig' %}
 
 {% block body %}
@@ -16,9 +20,9 @@
 	{{ form_row(formInscription.campus,{'attr': {'placeholder': "Lille"}}) }}
 	{{ form_row(formInscription.adressemail,{'attr': {'placeholder': "noel.flantier@viacesi.fr"}}) }}
 	{{ form_row(formInscription.motdepasse,{'attr': {'placeholder': "Idilj87"}}) }}
-	
+
 	<button type="submit" class="btn btn-sucess">S'inscrire</button>
-	
+
 	{{ form_end(formInscription) }}
 
 {% endblock %}
