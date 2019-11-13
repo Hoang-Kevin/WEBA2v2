@@ -12,8 +12,14 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpClient\CurlHttpClient;
 use App\Entity\Personne;
 
+use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\Response;
+
 class MainController extends AbstractController
 {
+
+
+
     /**
      * @Route("/main", name="main")
      */
@@ -28,10 +34,12 @@ class MainController extends AbstractController
      *  @Route("/"), name="home")
      */
     public function home() {
+
+        $cookie = new Cookie('isconnected', 'false', strtotime('now + 10 minutes'));
+
+
         return $this->render('main/home.html.twig', [
-            'Title' => "Bonjour, bonjour"
-
-
+            'cookie1' => $cookie->getValue('isconnected')
         ]);
 
     }
@@ -41,8 +49,7 @@ class MainController extends AbstractController
      */
     public function boutique() {
         return $this->render('main/boutique.html.twig', [
-            'Title' => "Bonjour, bonjour"
-
+            'Title' => "Bonjour, bonjour",
 
         ]);
 
