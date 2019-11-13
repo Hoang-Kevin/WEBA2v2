@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Inscrire;
+use App\Entity\Inscrires;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method Inscrire|null find($id, $lockMode = null, $lockVersion = null)
- * @method Inscrire|null findOneBy(array $criteria, array $orderBy = null)
- * @method Inscrire[]    findAll()
- * @method Inscrire[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Inscrires|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Inscrires|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Inscrires[]    findAll()
+ * @method Inscrires[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class InscrireRepository extends ServiceEntityRepository
+class InscriresRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Inscrire::class);
+        parent::__construct($registry, Inscrires::class);
     }
 
     // /**
-    //  * @return Inscrire[] Returns an array of Inscrire objects
+    //  * @return Inscrires[] Returns an array of Inscrires objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class InscrireRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Inscrire
+    public function findOneBySomeField($value): ?Inscrires
     {
         return $this->createQueryBuilder('i')
             ->andWhere('i.exampleField = :val')

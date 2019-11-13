@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Categorie;
+use App\Entity\Commandes;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method Categorie|null find($id, $lockMode = null, $lockVersion = null)
- * @method Categorie|null findOneBy(array $criteria, array $orderBy = null)
- * @method Categorie[]    findAll()
- * @method Categorie[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Commandes|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Commandes|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Commandes[]    findAll()
+ * @method Commandes[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CategorieRepository extends ServiceEntityRepository
+class CommandesRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Categorie::class);
+        parent::__construct($registry, Commandes::class);
     }
 
     // /**
-    //  * @return Categorie[] Returns an array of Categorie objects
+    //  * @return Commandes[] Returns an array of Commandes objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class CategorieRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Categorie
+    public function findOneBySomeField($value): ?Commandes
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')

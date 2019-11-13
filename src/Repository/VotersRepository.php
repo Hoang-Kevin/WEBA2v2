@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\Voter;
+use App\Entity\Voters;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
- * @method Voter|null find($id, $lockMode = null, $lockVersion = null)
- * @method Voter|null findOneBy(array $criteria, array $orderBy = null)
- * @method Voter[]    findAll()
- * @method Voter[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Voters|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Voters|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Voters[]    findAll()
+ * @method Voters[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class VoterRepository extends ServiceEntityRepository
+class VotersRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Voter::class);
+        parent::__construct($registry, Voters::class);
     }
 
     // /**
-    //  * @return Voter[] Returns an array of Voter objects
+    //  * @return Voters[] Returns an array of Voters objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class VoterRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Voter
+    public function findOneBySomeField($value): ?Voters
     {
         return $this->createQueryBuilder('v')
             ->andWhere('v.exampleField = :val')

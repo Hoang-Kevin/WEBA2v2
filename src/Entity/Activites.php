@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ActiviteRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\ActivitesRepository")
  */
-class Activite
+class Activites
 {
     /**
      * @ORM\Id()
@@ -22,6 +22,11 @@ class Activite
      * @ORM\Column(type="string", length=255)
      */
     private $description;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $image;
 
     /**
      * @ORM\Column(type="date")
@@ -44,25 +49,30 @@ class Activite
     private $valide;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Personne")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Personnes", inversedBy="activites")
      */
     private $id_personne;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Photo")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $id_photo;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Voter", mappedBy="id_activite")
+     * @ORM\OneToMany(targetEntity="App\Entity\Voters", mappedBy="id_activite")
      */
     private $voters;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Inscrires", mappedBy="id_activite")
+     */
+    private $inscrires;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Photos", mappedBy="id_activite")
+     */
+    private $photos;
 
     public function __construct()
     {
         $this->voters = new ArrayCollection();
+        $this->inscrires = new ArrayCollection();
+        $this->photos = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -78,6 +88,18 @@ class Activite
     public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }
@@ -130,39 +152,27 @@ class Activite
         return $this;
     }
 
-    public function getIdPersonne(): ?Personne
+    public function getIdPersonne(): ?Personnes
     {
         return $this->id_personne;
     }
 
-    public function setIdPersonne(?Personne $id_personne): self
+    public function setIdPersonne(?Personnes $id_personne): self
     {
         $this->id_personne = $id_personne;
 
         return $this;
     }
 
-    public function getIdPhoto(): ?Photo
-    {
-        return $this->id_photo;
-    }
-
-    public function setIdPhoto(?Photo $id_photo): self
-    {
-        $this->id_photo = $id_photo;
-
-        return $this;
-    }
-
     /**
-     * @return Collection|Voter[]
+     * @return Collection|Voters[]
      */
     public function getVoters(): Collection
     {
         return $this->voters;
     }
 
-    public function addVoter(Voter $voter): self
+    public function addVoter(Voters $voter): self
     {
         if (!$this->voters->contains($voter)) {
             $this->voters[] = $voter;
@@ -172,13 +182,75 @@ class Activite
         return $this;
     }
 
-    public function removeVoter(Voter $voter): self
+    public function removeVoter(Voters $voter): self
     {
         if ($this->voters->contains($voter)) {
             $this->voters->removeElement($voter);
             // set the owning side to null (unless already changed)
             if ($voter->getIdActivite() === $this) {
                 $voter->setIdActivite(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Inscrires[]
+     */
+    public function getInscrires(): Collection
+    {
+        return $this->inscrires;
+    }
+
+    public function addInscrire(Inscrires $inscrire): self
+    {
+        if (!$this->inscrires->contains($inscrire)) {
+            $this->inscrires[] = $inscrire;
+            $inscrire->setIdActivite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInscrire(Inscrires $inscrire): self
+    {
+        if ($this->inscrires->contains($inscrire)) {
+            $this->inscrires->removeElement($inscrire);
+            // set the owning side to null (unless already changed)
+            if ($inscrire->getIdActivite() === $this) {
+                $inscrire->setIdActivite(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Photos[]
+     */
+    public function getPhotos(): Collection
+    {
+        return $this->photos;
+    }
+
+    public function addPhoto(Photos $photo): self
+    {
+        if (!$this->photos->contains($photo)) {
+            $this->photos[] = $photo;
+            $photo->setIdActivite($this);
+        }
+
+        return $this;
+    }
+
+    public function removePhoto(Photos $photo): self
+    {
+        if ($this->photos->contains($photo)) {
+            $this->photos->removeElement($photo);
+            // set the owning side to null (unless already changed)
+            if ($photo->getIdActivite() === $this) {
+                $photo->setIdActivite(null);
             }
         }
 

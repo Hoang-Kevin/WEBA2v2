@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\InscrireRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\InscriresRepository")
  */
-class Inscrire
+class Inscrires
 {
     /**
      * @ORM\Id()
@@ -17,14 +17,12 @@ class Inscrire
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Activite")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Activites", inversedBy="inscrires")
      */
     private $id_activite;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Personne")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Personnes", inversedBy="inscrires")
      */
     private $id_personne;
 
@@ -33,24 +31,24 @@ class Inscrire
         return $this->id;
     }
 
-    public function getIdActivite(): ?Activite
+    public function getIdActivite(): ?Activites
     {
         return $this->id_activite;
     }
 
-    public function setIdActivite(?Activite $id_activite): self
+    public function setIdActivite(?Activites $id_activite): self
     {
         $this->id_activite = $id_activite;
 
         return $this;
     }
 
-    public function getIdPersonne(): ?Personne
+    public function getIdPersonne(): ?Personnes
     {
         return $this->id_personne;
     }
 
-    public function setIdPersonne(?Personne $id_personne): self
+    public function setIdPersonne(?Personnes $id_personne): self
     {
         $this->id_personne = $id_personne;
 

@@ -9,7 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\HttpClient\CurlHttpClient;
 use App\Entity\Personne;
 
 class MainController extends AbstractController
@@ -51,7 +51,7 @@ class MainController extends AbstractController
     /**
      *  @Route("/inscription"), name="inscription")
      */
-    public function inscription(Request $request, ObjectManager $manager) {
+    public function inscription(Request $request) {
 		
 		//création d'un object personne vide
 		$personne = new Personne();
@@ -62,12 +62,43 @@ class MainController extends AbstractController
 					 ->add('localisation', TextType::class)
 					 ->add('campus', TextType::class)
 					 ->add('adressemail', EmailType::class)
-					 ->add('password', PasswordType::class)
+					 ->add('motdepasse', PasswordType::class)
 					 ->getForm();
 					 
 		$form->handleRequest($request);
-		
+			
 		dump($personne);
+		
+		if($form->isSubmitted() && $form->isValid()) {
+					
+			$login["data"]=json_encode($personne);
+			$url = 'htpp://localhost:3000/users';
+			
+			$open_co=curl_init();
+			
+			curl_setopt($open_co,CURLOPT_URL,$url); 
+			curl_setopt($open_co,CURLOPT_POST,true);
+			curl_setopt($open_co,CURLOPT_POSTFIELDS,$login);
+			
+			$return = curl_exec($open_co);
+			
+			curl_close($open_co);
+			
+			$result = json_decode($return);
+			
+			if($result['connected']==TRUE) 
+			{
+				?>
+				<script>alert("inscription réussi !")</script>
+				<?php
+			}
+			else
+			{
+				?>
+				<script>alert("inscription echouée !")</script>
+				<?php
+			}
+		}
 		
         return $this->render('main/inscription.html.twig', [
             'formInscription' => $form->createView()
@@ -85,4 +116,54 @@ class MainController extends AbstractController
         ]);
 
     }
+
+
+    /**
+     *  @Route("/connexion"), name="connexion")
+     */
+    public function connexion() {
+        return $this->render('main/connexion.html.twig', [
+            'Title' => "Bonjour, bonjour"
+
+
+        ]);
+
+    }
+
+        /**
+     *  @Route("/mentions"), name="mentions")
+     */
+    public function mentions() {
+        return $this->render('main/mentions.html.twig', [
+            'Title' => "Bonjour, bonjour"
+
+
+        ]);
+
+    }
+
+        /**
+     *  @Route("/pdc"), name="pdc")
+     */
+    public function pdc() {
+        return $this->render('main/pdc.html.twig', [
+            'Title' => "Bonjour, bonjour"
+
+
+        ]);
+
+    }
+
+        /**
+     *  @Route("/cgv"), name="cgv")
+     */
+    public function cgv() {
+        return $this->render('main/cgv.html.twig', [
+            'Title' => "Bonjour, bonjour"
+
+
+        ]);
+
+    }
+
 }
