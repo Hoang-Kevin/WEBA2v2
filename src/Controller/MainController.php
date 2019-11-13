@@ -203,8 +203,20 @@ class MainController extends AbstractController
             'formConnexion' => $form->createView()
 		]);
     }
-	
-        /**
+    
+    /**
+     *  @Route("/connexion/error"), name="coerror")
+     */
+    public function coerror() {
+        return $this->render('main/coerror.html.twig', [
+            'Title' => "Bonjour, bonjour"
+
+
+        ]);
+
+    }
+
+    /**
      *  @Route("/mentions"), name="mentions")
      */
     public function mentions() {
