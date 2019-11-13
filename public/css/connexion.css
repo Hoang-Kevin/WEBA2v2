@@ -1,7 +1,24 @@
-body{
+.background{
+  background-color: #B6B6B6;
+  padding: 2%;
+  margin-left: 5%;
+  margin-right:5%;
   color: black;
 }
 
 .btn{
+  color: black;
+}
+
+.inscrit{
+  text-align: right;
+  font-size: 110%;
+}
+
+#popo:hover{
+  color: orange;
+}
+
+#popo{
   color: black;
 }
