@@ -22,7 +22,7 @@ module.exports.select = function (table, id) {
 }
 
 module.exports.connect = function (table, jsonData) {
-    console.log(jsonData.mail)
+    //console.log(jsonData.adressemail)
     return table.findOne({ where: { adressemail: jsonData.adressemail, motdepasse: jsonData.motdepasse } })
 }
 module.exports.add = function (table, jsonData, res) {
@@ -32,8 +32,7 @@ module.exports.add = function (table, jsonData, res) {
             table.findOne({ where: { adressemail: jsonData.adressemail } })
                 .then(function (user) {
                     if (!user) {
-                        console.log("pk sa bug")
-                        table.create({ id_role: 1, nom: jsonData.nom, prenom: jsonData.prenom, adressemail: jsonData.adressemail, motdepasse: jsonData.motdepasse, localisation: jsonData.localisation, campus: jsonData.campus })
+                        table.create({ id_role_id: 1, nom: jsonData.nom, prenom: jsonData.prenom, adressemail: jsonData.adressemail, motdepasse: jsonData.motdepasse, localisation: jsonData.localisation, campus: jsonData.campus })
                         res.json({ inscription: "Inscription reussie !" })
                     } else {
                         res.json({ inscription: "Inscription échouée !" })

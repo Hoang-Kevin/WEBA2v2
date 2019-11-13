@@ -17,48 +17,48 @@ app.use(bodyparser.json({ extended: true }))
 var myRouter = express.Router();
 
 // FAUT REGARDER https://scotch.io/tutorials/authenticate-a-node-es6-api-with-json-web-tokens#toc-setup
-myRouter.route(['/personnes', '/inscriptions', '/roles', '/users/[0-9]+', '/boutique', '/activities'])
+myRouter.route(['/personnes', '/inscriptions', '/roles', '/personnes/[0-9]+', '/produits', '/activites'])
       // GET
       .get(function (req, res) {
             var uri = req.path.split('/')
             var table = uri[1]
-            var table = enumTable.table(table)
+            var tableObj = enumTable.table(table)
             var id = uri[2]
             var array = []
-            if (table == "boutique" || table == "activities") {
-                  bdd.select(table)
+            if (table == "produits" || table == "activites") {
+                  bdd.select(tableObj)
                         .then(response => {
-                              if (response.lenght) {
-                                    for (let i = 0; i < response.lenght; i++) {
-                                          array.push(response[i].dataValues)
-                                    }
+                              for (let i = 0; i < response.length; i++) {
+                                    array.push(response[i].dataValues)
                               }
+                              res.json(array)
                         })
             } else {
-                  if (req.body.token) {
-                        bdd.select(table, id)
-                              .then(response => {
-                                    if (response.lenght) {
-                                          for (let i = 0; i < response.lenght; i++) {
-                                                array.push(response[i].dataValues)
-                                          }
-                                    } else {
-                                          array.push(response.dataValues)
-                                    }
-                                    res.json(array)
-                              })
-                  } else {
-                        res.json({ message: false })
-                  }
+                  console.log("eh non")
+                  //       if (req.body.token) {
+                  //             bdd.select(table, id)
+                  //                   .then(response => {
+                  //                         if (response.length) {
+                  //                               for (let i = 0; i < response.length; i++) {
+                  //                                     array.push(response[i].dataValues)
+                  //                               }
+                  //                         } else {
+                  //                               array.push(response.dataValues)
+                  //                         }
+                  //                         res.json(array)
+                  //                   })
+                  //       } else {
+                  //             res.json({ message: false })
+                  //       }
             }
       })
       //POST
       .post(function (req, res) {
             var uri = req.path.split('/')
             var table = uri[1]
-            var table = enumTable.table(table)
+            var tableObj = enumTable.table(table)
             if (req.query.connect == "true") {
-                  console.log(req.body.mail)
+                  console.log(req.body.adressemail)
                   connect(req, res)
             } else {
                   if (req.body.token) {
@@ -69,7 +69,7 @@ myRouter.route(['/personnes', '/inscriptions', '/roles', '/users/[0-9]+', '/bout
                               })
                   } else if (req.query.inscription == "true") {
                         //console.log(req.body)
-                        bdd.add(table, req.body, res)
+                        bdd.add(tableObj, req.body, res)
                   }
             }
       })
@@ -102,6 +102,7 @@ function connect(req, res) {
                         token = token.compact()
                         result.token = token
                         result.status = status
+                        result.connect = true
                         res.status(status).json(result)
                   } else {
                         res.json({ connect: false })

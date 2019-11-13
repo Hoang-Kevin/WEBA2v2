@@ -7,7 +7,7 @@ module.exports.User = connection.sequelize.define('personnes', {
         primaryKey: true,
         autoIncrement: true
     },
-    id_role: {
+    id_role_id: {
         type: Sequelize.STRING,
         foreignKey: true
     },
@@ -28,6 +28,10 @@ module.exports.User = connection.sequelize.define('personnes', {
         allowNull: false
     },
     localisation: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    campus: {
         type: Sequelize.STRING,
         allowNull: false
     }
@@ -64,21 +68,21 @@ module.exports.Role = connection.sequelize.define('roles', {
     timestamps: false
 })
 
-module.exports.Products = connection.sequelize.define('products', {
+module.exports.Products = connection.sequelize.define('produits', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    types_id: {
+    id_categorie_id: {
         type: Sequelize.STRING,
         foreignKey: true
     },
-    name: {
+    nom: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    price: {
+    prix: {
         type: Sequelize.FLOAT,
         allowNull: false
     },
@@ -86,30 +90,42 @@ module.exports.Products = connection.sequelize.define('products', {
         type: Sequelize.STRING,
         allowNull: false
     },
-    nb_vendu: {
-        type: Sequelize.INTEGER,
-        allowNull: false
-    }
+    // nb_vendu: {
+    //     type: Sequelize.INTEGER,
+    //     allowNull: false
+    // }
 }, {
     timestamps: false
 })
 
-module.exports.Activities = connection.sequelize.define('activite', {
+module.exports.Activities = connection.sequelize.define('activites', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    description: {
-        type: Sequelize.STRING,
+    id_personne_id: {
+        type: Sequelize.INTEGER,
         allowNull: true,
     },
     date: {
         type: Sequelize.DATE,
     },
-    available: {
+    valide: {
         type: Sequelize.BOOLEAN,
-    }
+    },
+    image: {
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
+    cout: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+    },
+    recurrence: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+    },
 }, {
     timestamps: false
 })
