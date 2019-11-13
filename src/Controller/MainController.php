@@ -159,9 +159,6 @@ class MainController extends AbstractController
 		//On crypte le mot de passe
 		$personne->setMotdepasse(crypt($personne->getMotdepasse(), 'dkPOpjfiIsjni16/idjsdi:AZEIIjsdquIisdsji/1839'));
 		
-		//dump = info dev		
-		dump($personne);
-		
 		//Si le formulaire a été soumis et est valide
 		if($form->isSubmitted() && $form->isValid()) {
 			
