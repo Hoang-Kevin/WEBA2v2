@@ -1,0 +1,31 @@
+
+.test{
+  background-color: grey;
+  color: black;
+}
+
+.test1{
+  border: 40mm grey;
+  margin-left: 5%;
+  margin-right:5%;
+}
+
+h3{
+  font-size: 150%;
+  font-weight: bold;
+}
+
+h4{
+  font-size: 120%;
+  font-weight: bold;
+}
+
+.test3{
+  font-size: 100%;
+  font-weight: bold;
+}
+h5{
+  font-style: 100%;
+  font-weight: bold;
+  text-decoration: underline;
+}
