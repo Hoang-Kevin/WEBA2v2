@@ -1,0 +1,16 @@
+.test{
+  background-color: #B6B6B6;
+  color: black;
+}
+
+.test1{
+  border: 40mm grey;
+  padding: 2%;
+  margin-left: 5%;
+  margin-right:5%;
+}
+
+h3{
+  font-size: 150%;
+  font-weight: bold;
+}
