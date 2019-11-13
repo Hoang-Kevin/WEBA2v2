@@ -187,7 +187,9 @@ class MainController extends AbstractController
 			
 			//retourne si la connexion à réussi le token
 			if($result['token']==NULL){
-				die("Error : Connection Failure");
+				header("Status: 301 Moved Permanently", false, 301);
+				header('Location : /connexion/error');
+				exit;
 			}
 			else
 			{
