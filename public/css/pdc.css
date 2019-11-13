@@ -1,11 +1,12 @@
 
 .test{
-  background-color: grey;
+  background-color: #B6B6B6;
   color: black;
 }
 
 .test1{
   border: 40mm grey;
+  padding: 2%;
   margin-left: 5%;
   margin-right:5%;
 }
