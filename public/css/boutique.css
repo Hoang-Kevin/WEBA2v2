@@ -1,0 +1,21 @@
+.background{
+  background-color: #B6B6B6;
+  color: black;
+}
+
+.list-group-item{
+  color: orange;
+}
+
+.list-group-item:hover{
+  color: white;
+}
+
+#titre{
+  color: orange;
+}
+
+
+.card{
+  color: white;
+}
