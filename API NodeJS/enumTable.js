@@ -3,7 +3,7 @@ const tables = require('./tables')
 
 module.exports.table = function (table) {
     switch (table) {
-        case "personne":
+        case "personnes":
             return tables.User
         case "inscriptions":
             return tables.Inscription

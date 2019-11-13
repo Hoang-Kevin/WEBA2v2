@@ -1,7 +1,7 @@
 const connection = require('./config')
 const Sequelize = require('sequelize')
 
-module.exports.User = connection.sequelize.define('personne', {
+module.exports.User = connection.sequelize.define('personnes', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
