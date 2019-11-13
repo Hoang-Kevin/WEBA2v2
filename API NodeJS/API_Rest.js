@@ -17,7 +17,7 @@ app.use(bodyparser.json({ extended: true }))
 var myRouter = express.Router();
 
 // FAUT REGARDER https://scotch.io/tutorials/authenticate-a-node-es6-api-with-json-web-tokens#toc-setup
-myRouter.route(['/personnes', '/inscriptions', '/roles', '/personnes/[0-9]+', '/produits', '/activites'])
+myRouter.route(['/personnes', '/personnes/[0-9]+', '/inscriptions', '/roles', '/produits', '/produits/[0-9]+', '/activites', '/activites/[0-9]+'])
       // GET
       .get(function (req, res) {
             var uri = req.path.split('/')
@@ -26,12 +26,18 @@ myRouter.route(['/personnes', '/inscriptions', '/roles', '/personnes/[0-9]+', '/
             var id = uri[2]
             var array = []
             if (table == "produits" || table == "activites") {
-                  bdd.select(tableObj)
+                  bdd.select(tableObj, id)
                         .then(response => {
-                              for (let i = 0; i < response.length; i++) {
-                                    array.push(response[i].dataValues)
+                              if (response.length) {
+                                    for (let i = 0; i < response.length; i++) {
+                                          array.push(response[i].dataValues)
+                                    }
+                              } else {
+                                    array.push(response.dataValues)
                               }
                               res.json(array)
+                        }).catch(() => {
+                              res.status(404).send("La page recherchée n'éxiste pas !")
                         })
             } else {
                   console.log("eh non")
