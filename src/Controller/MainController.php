@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpClient\CurlHttpClient;
-use App\Entity\Personne;
+use App\Entity\Personnes;
 
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Response;
@@ -61,8 +61,9 @@ class MainController extends AbstractController
     public function inscription(Request $request) {
 		
 		//création d'un object personne vide
-		$personne = new Personne();
+		$personne = new Personnes();
 		
+		//paramètre du formulaire relier aux attributs de l'object Personne
 		$form = $this->createFormBuilder($personne)
 					 ->add('nom', TextType::class)
 					 ->add('prenom', TextType::class)
@@ -71,28 +72,41 @@ class MainController extends AbstractController
 					 ->add('adressemail', EmailType::class)
 					 ->add('motdepasse', PasswordType::class)
 					 ->getForm();
-					 
+		
+		//traite le formulaire
 		$form->handleRequest($request);
-			
+		
+		//on crypte le mot de passe
+		$personne->setMotdepasse(crypt($personne->getMotdepasse(), 'dkPOpjfiIsjni16/idjsdi:AZEIIjsdquIisdsji/1839'));	
+		
+		//dump = info dev		
 		dump($personne);
 		
+		//si le formulaire a été soumis et est valide
 		if($form->isSubmitted() && $form->isValid()) {
 					
+			//transforme en json les réponses du formulaire
 			$login["data"]=json_encode($personne);
 			$url = 'htpp://localhost:3000/users';
 			
+			//ouverture de la connexion
 			$open_co=curl_init();
 			
+			//configuration de l'envoie et envoie
 			curl_setopt($open_co,CURLOPT_URL,$url); 
 			curl_setopt($open_co,CURLOPT_POST,true);
 			curl_setopt($open_co,CURLOPT_POSTFIELDS,$login);
 			
+			//réponse
 			$return = curl_exec($open_co);
 			
+			//fermeture de la connection
 			curl_close($open_co);
 			
+			//décode le json 
 			$result = json_decode($return);
 			
+			//si connected dans $result prends la valeur true on est inscrit sinon on n'est pas inscrit 
 			if($result['connected']==TRUE) 
 			{
 				?>
@@ -107,6 +121,7 @@ class MainController extends AbstractController
 			}
 		}
 		
+		//envoie le formulaire pour le construire sur la page web
         return $this->render('main/inscription.html.twig', [
             'formInscription' => $form->createView()
 		]);
@@ -128,15 +143,58 @@ class MainController extends AbstractController
     /**
      *  @Route("/connexion"), name="connexion")
      */
-    public function connexion() {
+    public function connexion(Request $request) {
+		//création d'un object personne vide
+		$personne = new Personnes();
+
+		//paramètre du formulaire relier aux attributs de l'object Personne
+		$form = $this->createFormBuilder($personne)
+					 ->add('adressemail', EmailType::class)
+					 ->add('motdepasse', PasswordType::class)
+					 ->getForm();
+
+		//traite le formulaire
+		$form->handleRequest($request);
+
+		//On crypte le mot de passe
+		$personne->setMotdepasse(crypt($personne->getMotdepasse(), 'dkPOpjfiIsjni16/idjsdi:AZEIIjsdquIisdsji/1839'));
+		
+		//dump = info dev		
+		dump($personne);
+		
+		//Si le formulaire a été soumis et est valide
+		if($form->isSubmitted() && $form->isValid()) {
+			
+			//transforme en json les réponses du formulaire
+			$login["data"]=json_encode($personne);
+			$url = 'htpp://localhost:3000/users';
+			
+			//ouverture de la connexion			
+			$open_co = curl_init ();
+			
+			//configuration de l'envoie et envoie
+			curl_setopt($open_co,CURLOPT_URL,$url);
+			curl_setopt($open_co, CURLOPT_POST, true);
+			curl_setopt($open_co,CURLOPT_POSTFIELDS,$login);
+			curl_setopt($open_co, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($open_co, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+			
+			//réponse
+			$return = curl_exec($open_co);	
+			
+			//décode le json 
+			$result = json_decode($return);
+			
+			//retourne si la connexion à réussi le token
+			if(!$result){die("Error : Connection Echoué !");}
+			curl_close($curl);		
+		}
+
         return $this->render('main/connexion.html.twig', [
-            'Title' => "Bonjour, bonjour"
-
-
-        ]);
-
+            'formConnexion' => $form->createView()
+		]);
     }
-
+	
         /**
      *  @Route("/mentions"), name="mentions")
      */
