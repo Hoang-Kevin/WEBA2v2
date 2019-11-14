@@ -61,7 +61,7 @@ class MainController extends AbstractController
     /**
      *  @Route("/boutique/add"), name="boutique")
      */
-    public function addboutique() {
+    public function addboutique(Request $request) {
 		
 		//création d'un object produit vide
 		$produit = new Produits();
@@ -71,8 +71,55 @@ class MainController extends AbstractController
 					 ->add('nom', TextType::class)
 					 ->add('description', TextareaType::class)
 					 ->add('prix', MoneyType::class)
-					 ->add('id_categorie', IntegerType::class)
 					 ->getForm();
+					 
+		//traite le formulaire
+		$form->handleRequest($request);
+					
+		//dump = info dev		
+		dump($produit);
+		
+		//si le formulaire a été soumis et est valide
+		if($form->isSubmitted() && $form->isValid()) {
+					
+			//transforme en json les réponses du formulaire
+			$login["data"]=json_encode($produit);
+			$url = 'htpp://localhost:3000/users';
+			
+			//ouverture de la connexion
+			$open_co=curl_init();
+			
+			//configuration de l'envoie et envoie
+			curl_setopt($open_co,CURLOPT_URL,$url); 
+			curl_setopt($open_co,CURLOPT_POST,true);
+			curl_setopt($open_co,CURLOPT_POSTFIELDS,$login);
+			
+			//réponse
+			$return = curl_exec($open_co);
+			
+			//fermeture de la connection
+			curl_close($open_co);
+			
+			//décode le json 
+			$result = json_decode($return);
+			
+			//si connected dans $result prends la valeur true le produit est ajouté sinon il n'est pa ajouté
+			if($result['connected']==TRUE) 
+			{
+				?>
+				<script>alert("le produit est ajouté à la boutique !")</script>
+				<?php
+				header("Status: 301 Moved Permanently", false, 301);
+				header('Location : /boutique');
+				exit;
+			}
+			else
+			{
+				?>
+				<script>alert("le produit ne c'est pas ajouté veuillez réssayer !")</script>
+				<?php
+			}
+		}
 					 
 		//envoie le formulaire pour le construire sur la page web
         return $this->render('main/addproduit.html.twig', [
@@ -83,7 +130,7 @@ class MainController extends AbstractController
     /**
      *  @Route("/boutique/modif"), name="boutique")
      */
-    public function modifboutique() {
+    public function modifboutique(Request $request) {
 		
 		//création d'un object personne vide
 		$produit = new Produits();
@@ -93,9 +140,57 @@ class MainController extends AbstractController
 					 ->add('nom', TextType::class)
 					 ->add('description', TextareaType::class)
 					 ->add('prix', MoneyType::class)
-					 ->add('id_categorie', IntegerType::class)
 					 ->getForm();
 					 
+		//traite le formulaire
+		$form->handleRequest($request);
+					
+		//dump = info dev		
+		dump($produit);
+		
+		//si le formulaire a été soumis et est valide
+		if($form->isSubmitted() && $form->isValid()) {
+					
+			//transforme en json les réponses du formulaire
+			$login["data"]=json_encode($produit);
+			$url = 'htpp://localhost:3000/users';
+			
+			//ouverture de la connexion
+			$open_co=curl_init();
+			
+			//configuration de l'envoie et envoie
+			curl_setopt($open_co,CURLOPT_URL,$url); 
+			curl_setopt($open_co,CURLOPT_POST,true);
+			curl_setopt($open_co,CURLOPT_POSTFIELDS,$login);
+			curl_setopt($open_co, CURLOPT_RETURNTRANSFER, true);
+			
+			//réponse
+			$return = curl_exec($open_co);
+			
+			//fermeture de la connection
+			curl_close($open_co);
+			
+			//décode le json 
+			$result = json_decode($return);
+			
+			//si connected dans $result prends la valeur true le produit est modifié sinon il n'est pas modifié
+			if($result['connected']==TRUE) 
+			{
+				?>
+				<script>alert("le produit est modifié dans la boutique !")</script>
+				<?php
+				header("Status: 301 Moved Permanently", false, 301);
+				header('Location : /boutique');
+				exit;
+			}
+			else
+			{
+				?>
+				<script>alert("le produit n'a pas été modifié dans la boutique !")</script>
+				<?php
+			}
+		}
+		
 		//envoie le formulaire pour le construire sur la page web
         return $this->render('main/modifproduit.html.twig', [
             'formModifProduit' => $form->createView()
