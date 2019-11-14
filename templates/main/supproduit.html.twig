@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Supprimer Produit{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/supproduit.css') }}" media="all" />
+{% endblock %}
+
+{% form_theme formSupProduit 'bootstrap_4_Layout.html.twig' %}
+
+{% block body %}
+
+<div class="background">
+	<h3>Formulaire supprimer un produit</h3>
+
+	{{ form_start(formSupProduit) }}
+
+	{{ form_row(formSupProduit.nom,{'attr': {'placeholder': "Pull Gucci"}}) }}
+
+	<button type="submit" class="btn btn-sucess">Supprimer Produit</button>
+
+	{{ form_end(formSupProduit) }}
+
+</div>
+{% endblock %}

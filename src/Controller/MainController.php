@@ -128,9 +128,9 @@ class MainController extends AbstractController
     }
 	
     /**
-     *  @Route("/boutique/modif"), name="boutique")
+     *  @Route("/boutique/sup"), name="boutique")
      */
-    public function modifboutique(Request $request) {
+    public function supboutique(Request $request) {
 		
 		//création d'un object personne vide
 		$produit = new Produits();
@@ -138,8 +138,6 @@ class MainController extends AbstractController
 		//paramètre du formulaire relier aux attributs de l'object Personne
 		$form = $this->createFormBuilder($produit)
 					 ->add('nom', TextType::class)
-					 ->add('description', TextareaType::class)
-					 ->add('prix', MoneyType::class)
 					 ->getForm();
 					 
 		//traite le formulaire
@@ -159,9 +157,9 @@ class MainController extends AbstractController
 			$open_co=curl_init();
 			
 			//configuration de l'envoie et envoie
-			curl_setopt($open_co,CURLOPT_URL,$url); 
-			curl_setopt($open_co,CURLOPT_POST,true);
-			curl_setopt($open_co,CURLOPT_POSTFIELDS,$login);
+			curl_setopt($open_co, CURLOPT_URL, $url);
+			curl_setopt($open_co, CURLOPT_CUSTOMREQUEST, "DELETE");
+			curl_setopt($open_co, CURLOPT_POSTFIELDS, $login);
 			curl_setopt($open_co, CURLOPT_RETURNTRANSFER, true);
 			
 			//réponse
@@ -173,11 +171,11 @@ class MainController extends AbstractController
 			//décode le json 
 			$result = json_decode($return);
 			
-			//si connected dans $result prends la valeur true le produit est modifié sinon il n'est pas modifié
+			//si connected dans $result prends la valeur true le produit est supprmier sinon il n'est pas supprimer
 			if($result['connected']==TRUE) 
 			{
 				?>
-				<script>alert("le produit est modifié dans la boutique !")</script>
+				<script>alert("le produit est supprimé de la boutique !")</script>
 				<?php
 				header("Status: 301 Moved Permanently", false, 301);
 				header('Location : /boutique');
@@ -186,14 +184,14 @@ class MainController extends AbstractController
 			else
 			{
 				?>
-				<script>alert("le produit n'a pas été modifié dans la boutique !")</script>
+				<script>alert("le produit n'a pas été supprimé de la boutique !")</script>
 				<?php
 			}
 		}
 		
 		//envoie le formulaire pour le construire sur la page web
-        return $this->render('main/modifproduit.html.twig', [
-            'formModifProduit' => $form->createView()
+        return $this->render('main/supproduit.html.twig', [
+            'formSupProduit' => $form->createView()
 		]);
     }
 
