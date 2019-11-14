@@ -220,22 +220,24 @@ class MainController extends AbstractController
 		$personne->setMotdepasse(crypt($personne->getMotdepasse(), 'dkPOpjfiIsjni16/idjsdi:AZEIIjsdquIisdsji/1839'));	
 		
 		//dump = info dev		
-		dump($personne);
+		var_dump($personne);
 		
 		//si le formulaire a été soumis et est valide
 		if($form->isSubmitted() && $form->isValid()) {
 					
 			//transforme en json les réponses du formulaire
-			$login["data"]=json_encode($personne);
-			$url = 'htpp://localhost:3000/users';
+			$login['data']=json_encode($personne);
+			$url = 'http://localhost:3000/personnes?inscription=true';
 			
 			//ouverture de la connexion
 			$open_co=curl_init();
 			
 			//configuration de l'envoie et envoie
-			curl_setopt($open_co,CURLOPT_URL,$url); 
-			curl_setopt($open_co,CURLOPT_POST,true);
+			curl_setopt($open_co,CURLOPT_URL,$url);
+			curl_setopt($open_co, CURLOPT_CUSTOMREQUEST, "POST");
 			curl_setopt($open_co,CURLOPT_POSTFIELDS,$login);
+			curl_setopt($open_co, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($open_co, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
 			
 			//réponse
 			$return = curl_exec($open_co);
@@ -261,9 +263,11 @@ class MainController extends AbstractController
 				?>
 				<script>alert("inscription echouée !")</script>
 				<?php
+				
+				echo $login['data'];
 			}
 		}
-		
+	
 		//envoie le formulaire pour le construire sur la page web
         return $this->render('main/inscription.html.twig', [
             'formInscription' => $form->createView()
