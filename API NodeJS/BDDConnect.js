@@ -11,12 +11,31 @@ connection.sequelize.authenticate()
         console.error('Unable to connect to the database', err)
     })
 
-module.exports.select = function (table, id) {
-    if (!id) {
+module.exports.select = function (table, query) {
+    console.log(query)
+    if (!query) {
         return table.findAll({
         })
     } else {
-        return table.findOne({ where: { id: id } })
+        var variable = Object.keys(query)
+        var jsonValues = []
+        var whereStmt = "{"
+        for (key in query) {
+            jsonValues.push(query[key])
+        }
+        for (let i = 0; i < variable.length; i++) {
+            if (i != variable.length - 1) {
+                whereStmt = whereStmt + '"' + variable[i] + '"' + ":" + '"' + jsonValues[i] + '",'
+            } else {
+                whereStmt = whereStmt + '"' + variable[i] + '"' + ":" + '"' + jsonValues[i] + '"'
+            }
+        }
+        whereStmt = whereStmt + "}"
+        console.log(whereStmt)
+        var jsonQuery = JSON.parse(whereStmt)
+        console.log(jsonQuery)
+        //return connection.sequelize.query("SELECT `id`, `id_personne_id`, `date`, `valide`, `image`, `cout`, `recurrence` FROM `activites` AS `activites` WHERE `activites`.`id` = " + query.id)
+        return table.findOne({ where: jsonQuery })
     }
 
 }

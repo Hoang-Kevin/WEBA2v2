@@ -17,29 +17,48 @@ app.use(bodyparser.json({ extended: true }))
 var myRouter = express.Router();
 
 // FAUT REGARDER https://scotch.io/tutorials/authenticate-a-node-es6-api-with-json-web-tokens#toc-setup
-myRouter.route(['/personnes', '/personnes/[0-9]+', '/inscriptions', '/roles', '/produits', '/produits/[0-9]+', '/activites', '/activites/[0-9]+'])
+myRouter.route(['/personnes', '/personnes/[0-9]+', '/inscriptions', '/roles', '/produits', '/produits/[0-9]+', '/activites'])
       // GET
       .get(function (req, res) {
-            var uri = req.path.split('/')
-            var table = uri[1]
+
+            //On recupere d'abord les informations de l'URL
+            var path = req.path.split('/')
+            var table = path[1]
+
+            //On transforme le String "table" en Objet
             var tableObj = enumTable.table(table)
-            var id = uri[2]
+
+            //On recupere les parametres de l'URL
+            var query = req.query
             var array = []
             if (table == "produits" || table == "activites") {
-                  bdd.select(tableObj, id)
+
+                  //On execute la requête SQL et on recupere la reponse
+                  bdd.select(tableObj, query)
                         .then(response => {
-                              if (response.length) {
-                                    for (let i = 0; i < response.length; i++) {
-                                          array.push(response[i].dataValues)
+                              if (!query) {
+                                    if (response.length) {
+                                          for (let i = 0; i < response.length; i++) {
+                                                array.push(response[i].dataValues)
+                                          }
+                                    } else {
+                                          array.push(response.dataValues)
                                     }
                               } else {
-                                    array.push(response.dataValues)
+                                    for (let i = 0; i < response[0].length; i++) {
+                                          array.push(response[0][i])
+                                    }
                               }
                               res.json(array)
-                        }).catch(() => {
-                              res.status(404).send("La page recherchée n'éxiste pas !")
+                        })
+
+                        //En cas d'erreurs, on renvoie le status de la requête (pas opti ?)
+                        .catch(() => {
+                              res.status(res.statusCode).send("La page recherchée n'éxiste pas !")
                         })
             } else {
+                  //Code non effectué
+
                   console.log("eh non")
                   //       if (req.body.token) {
                   //             bdd.select(table, id)
@@ -60,36 +79,62 @@ myRouter.route(['/personnes', '/personnes/[0-9]+', '/inscriptions', '/roles', '/
       })
       //POST
       .post(function (req, res) {
-            var uri = req.path.split('/')
-            var table = uri[1]
+
+            //On recupere d'abord les informations de l'URL
+            var path = req.path.split('/')
+            var table = path[1]
+
+            //On transforme le String "table" en Objet
             var tableObj = enumTable.table(table)
+
+            //Si l'utilisateur souhaite se connecter, on lance la fonction "connect"
             if (req.query.connect == "true") {
                   console.log(req.body.adressemail)
                   connect(req, res)
             } else {
+
+                  //Si l'utilisateur possède un token
                   if (req.body.token) {
+
+                        //On decode le token pour recuperer le mail
                         var mail = decodeToken(req.body.token)
+
+                        //On verifie son rôle a partir de son mail
                         bdd.verifRole(mail)
                               .then(response => {
                                     res.json({ role: response[0][0]['role.name'] })
                               })
-                  } else if (req.query.inscription == "true") {
-                        //console.log(req.body)
-                        bdd.add(tableObj, req.body, res)
+
+                              //En cas d'erreurs, on l'affiche dans la console (pour l'instant)
+                              .catch(err => {
+                                    console.log(err)
+                              })
+
+                  } else {
+
+                        //Si l'utilisateur veut d'inscrire, on l'ajoute dans la BDD
+                        if (req.query.inscription == "true") {
+                              //console.log(req.body)
+                              bdd.add(tableObj, req.body, res)
+                        }
                   }
             }
       })
+
       //PUT
       .put(function (req, res) {
             bdd.modify(enumTable.table(req.path.split('/')[1]), req.body, res)
       })
+      
       //DELETE
       .delete(function (req, res) {
             bdd.delete(enumTable.table(req.path.split('/')[1]), req.body)
             res.json({ message: "Suppression d'une piscine dans la liste", methode: req.method });
       });
+
 // Nous demandons à l'application d'utiliser notre routeur
 app.use(myRouter);
+
 // Démarrer le serveur 
 app.listen(port, hostname, function () {
       console.log("Mon serveur fonctionne sur http://" + hostname + ":" + port);
@@ -115,6 +160,7 @@ function connect(req, res) {
                   }
             })
 }
+
 // Pour l'instant on considère que le token se trouve dans le body
 function decodeToken(token) {
       var decodedToken = jsToken.verify(token, secret, "HS256")
