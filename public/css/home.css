@@ -119,3 +119,9 @@ padding: 15px;
   from {opacity: .4}
   to {opacity: 1}
 }
+
+.carousel-caption{
+  color: black;
+  text-align: center;
+  font-size: 150%;
+}
