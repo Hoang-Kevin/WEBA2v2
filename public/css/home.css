@@ -6,18 +6,22 @@ padding: 15px;
     background-color: hsla(219,63%,61%,1)!important;
 }
 
+.carouselb{
+  background-color: #CCCCCC;
+}
+
 .vente{
     color: black;
     text-align: left;
     font-size: 40px;
     left: 10px;
+    text-decoration: underline;
 }
 
 .heroContent {
     padding-left: 100px;
     padding-right: 150px;
 }
-
 
 #titre{
   font-size: 30px;

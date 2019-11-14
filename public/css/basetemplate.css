@@ -618,3 +618,7 @@ body{
       }
     }
   }
+
+#siderbartext:hover{
+  color: orange;
+}
