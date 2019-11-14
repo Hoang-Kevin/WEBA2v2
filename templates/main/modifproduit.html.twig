@@ -1,6 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}MODIFIER PRODUIT{% endblock %}
+{% block title %}Modifier Produit{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/modifproduit.css') }}" media="all" />
+{% endblock %}
 
 {% form_theme formModifProduit 'bootstrap_4_Layout.html.twig' %}
 

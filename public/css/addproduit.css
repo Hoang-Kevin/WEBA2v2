@@ -9,16 +9,3 @@
 .btn{
   color: black;
 }
-
-.inscrit{
-  text-align: right;
-  font-size: 110%;
-}
-
-#inscrit:hover{
-  color: orange;
-}
-
-#inscrit{
-  color: black;
-}

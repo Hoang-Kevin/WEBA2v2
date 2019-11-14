@@ -1,6 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}AJOUTER PRODUIT{% endblock %}
+{% block title %}Ajouter Produit{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/addproduit.css') }}" media="all" />
+{% endblock %}
 
 {% form_theme formAddProduit 'bootstrap_4_Layout.html.twig' %}
 
