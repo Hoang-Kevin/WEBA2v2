@@ -70,68 +70,98 @@ class MainController extends AbstractController
      */
     public function addboutique(Request $request) {
 
-		//création d'un object produit vide
 		$produit = new Produits();
+		$encoders = [new JsonEncoder()];
+		$normalizers = [new ObjectNormalizer()];
+		$serializer = new Serializer($normalizers, $encoders);
 
-		//paramètre du formulaire relier aux attributs de l'object produit
-		$form = $this->createFormBuilder($produit)
+		$form = $this->createFormBuilder($evenement)
 					 ->add('nom', TextType::class)
-					 ->add('description', TextareaType::class)
-					 ->add('prix', MoneyType::class)
+					 ->add('description', TextType::class)
+					 ->add('prix', TextType::class)
+					 ->add('id_categorie', TextType::class)
+					 ->add('image', TextType::class)
 					 ->getForm();
 
-		//traite le formulaire
 		$form->handleRequest($request);
 
-		//dump = info dev
-		dump($produit);
 
-		//si le formulaire a été soumis et est valide
+
 		if($form->isSubmitted() && $form->isValid()) {
 
-			//transforme en json les réponses du formulaire
-			$login["data"]=json_encode($produit);
-			$url = 'htpp://localhost:3000/users';
+			$data = $form->getData();
 
-			//ouverture de la connexion
+			$json_data = $serializer->serialize($data, 'json');
+
+			$url = 'http://localhost:3000/produits';
+
 			$open_co=curl_init();
+			$sess = $request->getSession();
+			$token = $sess->get('token');
 
-			//configuration de l'envoie et envoie
-			curl_setopt($open_co,CURLOPT_URL,$url);
-			curl_setopt($open_co,CURLOPT_POST,true);
-			curl_setopt($open_co,CURLOPT_POSTFIELDS,$login);
 
-			//réponse
-			$return = curl_exec($open_co);
+			if($form->isSubmitted() && $form->isValid()) {
+				$header = [
+					'Accept: application/json',
+					'Content-Type: application/json',
+				];
+				
+				$decoded = json_decode($json_data, true);
 
-			//fermeture de la connection
-			curl_close($open_co);
+				
+				$decoded['token'] = $token;
 
-			//décode le json
-			$result = json_decode($return);
+				$json_data = $serializer->serialize($decoded, 'json');
+				dump($json_data);
 
-			//si connected dans $result prends la valeur true le produit est ajouté sinon il n'est pa ajouté
-			if($result['connected']==TRUE)
-			{
-				?>
-				<script>alert("le produit est ajouté à la boutique !")</script>
-				<?php
-				header("Status: 301 Moved Permanently", false, 301);
-				header('Location : /boutique');
-				exit;
+
+				
+
+				
+				//configuration de l'envoie et envoie
+				curl_setopt($open_co, CURLOPT_URL,$url );
+				curl_setopt($open_co, CURLOPT_CUSTOMREQUEST, "POST");
+
+				curl_setopt($open_co, CURLOPT_HTTPHEADER, $header);
+				curl_setopt($open_co, CURLOPT_POSTFIELDS, $json_data);
+
+				curl_setopt($open_co, CURLOPT_RETURNTRANSFER, true);
+
+				$return = curl_exec($open_co);
+				dump($request);
+				//fermeture de la connection
+				curl_close($open_co);
+
+				//décode le json
+				$result = json_decode($return, true);
+
+				if($result['added'] == "true")
+				{
+					?>
+					<script>alert("Ajout réussi !")</script>
+					<?php
+					header("Status: 301 Moved Permanently", false, 301);
+					header('Location : /');
+					exit;
+				}
+				else
+				{
+					?>
+					<script>alert("Ajout echouée !")</script>
+					<?php
+				}
+	
 			}
-			else
-			{
-				?>
-				<script>alert("le produit ne c'est pas ajouté veuillez réssayer !")</script>
-				<?php
-			}
+
 		}
 
-		//envoie le formulaire pour le construire sur la page web
-        return $this->render('main/addproduit.html.twig', [
-            'formAddProduit' => $form->createView()
-		]);
+
+
+        return $this->render('main/addevenement.html.twig', [
+			'Title' => "Bonjour, bonjour",
+			'formAddEvent' => $form->createView()
+        ]);
+
     }
 	
 
