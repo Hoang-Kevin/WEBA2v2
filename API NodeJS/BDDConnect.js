@@ -40,7 +40,13 @@ module.exports.add = function (table, jsonData, res) {
             break
         case "activites":
             console.log("Cas activites : ")
-            //table.create({ date: jsonData.date })
+            connection.sequelize.query('SELECT `personnes`.`id` FROM `personnes` WHERE `personnes`.`nom` = \'' + jsonData.NomUser + '\' AND `personnes`.`prenom` = \'' + jsonData.prenom + '\'')
+                .then(response => {
+                    var { id } = response[0][0]
+                    console.log(jsonData)
+                    table.create({id_personne_id: id, description: jsonData.description, nom: jsonData.nom, image: jsonData.image, date: jsonData.date, recurrence: jsonData.recurrence, cout: jsonData.cout, valide: jsonData.valide})
+                    //table.create({ })
+                })
             break
         // case "roles":
         //     table.findOne({ where: { name: jsonData.name } })
