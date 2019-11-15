@@ -45,9 +45,6 @@ class MainController extends AbstractController
      */
     public function home() {
 
-        $cookie = new Cookie('isconnected', 'false', strtotime('now + 10 minutes'));
-
-
         return $this->render('main/home.html.twig', [
             'cookie1' => $cookie->getValue('isconnected')
         ]);
@@ -383,6 +380,8 @@ class MainController extends AbstractController
      *  @Route("/connexion"), name="connexion")
      */
     public function connexion(Request $request) {
+
+		//$cookie = new Cookie('isconnected', 'false', strtotime('now + 10 minutes'));
 		//création d'un object personne vide
 		$personne = new Personnes();
 
@@ -402,7 +401,8 @@ class MainController extends AbstractController
 		if($form->isSubmitted() && $form->isValid()) {
 			
 			//transforme en json les réponses du formulaire
-			$login["data"]=json_encode($personne);
+			$login=json_encode($personne, true);
+			dump($login);
 			$url = 'htpp://localhost:3000/users';
 			
 			//ouverture de la connexion			
@@ -422,6 +422,7 @@ class MainController extends AbstractController
 			$result = json_decode($return);
 			
 			//retourne si la connexion à réussi le token
+			/*
 			if($result['token']==NULL){
 				header("Status: 301 Moved Permanently", false, 301);
 				header('Location : /connexion/error');
@@ -433,8 +434,9 @@ class MainController extends AbstractController
 				header('Location : /');
 				exit;				
 			}
+			*/
 		
-			curl_close($curl);		
+			curl_close($open_co);		
 		}
 
         return $this->render('main/connexion.html.twig', [
