@@ -17,7 +17,7 @@ app.use(bodyparser.json({ extended: true }))
 var myRouter = express.Router();
 
 // FAUT REGARDER https://scotch.io/tutorials/authenticate-a-node-es6-api-with-json-web-tokens#toc-setup
-myRouter.route(['/personnes', '/personnes/[0-9]+', '/inscriptions', '/roles', '/produits', '/produits/[0-9]+', '/activites'])
+myRouter.route(['/personnes', '/personnes/[0-9]+', '/inscrire', '/roles', '/produits', '/produits/[0-9]+', '/activites'])
       // GET
       .get(function (req, res) {
 
@@ -34,7 +34,7 @@ myRouter.route(['/personnes', '/personnes/[0-9]+', '/inscriptions', '/roles', '/
             var isQuery = Object.keys(query).length == 0 ? false : true
 
             var array = []
-            if (table == "produits" || table == "activites") {
+            if ((table == "produits" || table == "activites") && !req.headers.auth) {
 
                   //On execute la requête SQL et on recupere la reponse
                   bdd.select(tableObj, query, isQuery)
@@ -88,32 +88,20 @@ myRouter.route(['/personnes', '/personnes/[0-9]+', '/inscriptions', '/roles', '/
             if (req.query.connect == "true") {
                   console.log(req.body.adressemail)
                   connect(req, res)
+
+            } else if (req.query.inscription == "true") {
+                  console.log("inscription en cours")
+                  //Si l'utilisateur veut d'inscrire, on l'ajoute dans la BDD
+                  bdd.add(tableObj, req.body, res)
             } else {
 
                   //Si l'utilisateur possède un token
                   if (req.body.token) {
 
-                        //On decode le token pour recuperer le mail
-                        var mail = decodeToken(req.body.token)
-
-                        //On verifie son rôle a partir de son mail
-                        bdd.verifRole(mail)
-                              .then(response => {
-                                    res.json({ role: response[0][0]['role.name'] })
-                              })
-
-                              //En cas d'erreurs, on l'affiche dans la console (pour l'instant)
-                              .catch(err => {
-                                    console.log(err)
-                              })
-
-                  } else {
-
-                        //Si l'utilisateur veut d'inscrire, on l'ajoute dans la BDD
-                        if (req.query.inscription == "true") {
-                              //console.log(req.body)
+                        if (table == 'activites') {
                               bdd.add(tableObj, req.body, res)
                         }
+
                   }
             }
       })
@@ -146,13 +134,14 @@ function connect(req, res) {
                         status = 200
                         bdd.verifRole(response.dataValues.adressemail)
                               .then(responseTest => {
-                                    var role = responseTest[0][0].role
-                                    console.log(role)
+                                    var { role, prenom, nom } = responseTest[0][0]
                                     const payload = { "mail": response.dataValues.adressemail }
                                     var token = jsToken.create(payload, secret, "HS256")
                                     token = token.compact()
                                     result.token = token
                                     result.role = role
+                                    result.prenom = prenom
+                                    result.nom = nom
                                     result.connect = true
                                     res.status(status).json(result)
                               })
