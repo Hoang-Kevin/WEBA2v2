@@ -57,10 +57,16 @@ module.exports.add = function (table, jsonData, res) {
             break
         case "produits":
             console.log("Cas produits : ")
-            connection.sequelize.query('SELECT `categories`.`id` FROM `categories` WHERE `categories`.`categorie` = \'' + jsonData.categorie + '\'')
-                .then(response => {
-                    //var { id } = response[0][0]
-                    table.create({ id_categorie_id: jsonData.id_categorie, nom: jsonData.nom, description: jsonData.description, prix: jsonData.prix, image: jsonData.image })
+            //connection.sequelize.query('SELECT `categories`.`id` FROM `categories` WHERE `categories`.`categorie` = \'' + jsonData.categorie + '\'')
+            table.findOne({ where: { id_categorie_id: jsonData.categorie, nom: jsonData.nom, description: jsonData.description, prix: jsonData.prix, image: jsonData.image } })
+                .then(produit => {
+                    if (!produit) {
+                        //var { id } = response[0][0]
+                        table.create({ id_categorie_id: jsonData.categorie, nom: jsonData.nom, description: jsonData.description, prix: jsonData.prix, image: jsonData.image })
+                        res.json({ added: true })
+                    } else {
+                        res.json({ added: false })
+                    }
                 })
             break
     }
