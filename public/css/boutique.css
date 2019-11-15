@@ -19,3 +19,14 @@
 .card{
   color: white;
 }
+
+.panier{
+  text-align: center;
+  font-size: 120%;
+  margin-top: 25px;
+  color: #4152C9;
+}
+
+.panier:hover{
+  color: white;
+}
