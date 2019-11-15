@@ -21,14 +21,12 @@
 	{{ form_row(formInscription.adressemail,{'attr': {'placeholder': "noel.flantier@viacesi.fr"}}) }}
 	{{ form_row(formInscription.motdepasse,{'attr': {'placeholder': "Idilj87"}}) }}
 
-  <form>
-    <div>
-      <input type="checkbox" id="subscribeNews" name="subscribe" value="newsletter">
-      <label for="subscribeNews">J’accepter les conditions du règlement</label>
-    </div>
-  </form>
+     <div>
+		<input type="checkbox" id="subscribeNews" name="subscribe" value="newsletter"> 
+			<label for="subscribeNews">J’accepte les conditions du règlement</label>
+	 </div> 
 
-	<button type="submit" class="btn btn-sucess">S'inscrire</button>
+	<button type="submit" class="btn btn-success">S'inscrire</button>
 
 	{{ form_end(formInscription) }}
 
