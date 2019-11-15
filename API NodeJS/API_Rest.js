@@ -97,10 +97,8 @@ myRouter.route(['/personnes', '/personnes/[0-9]+', '/inscrire', '/roles', '/prod
 
                   //Si l'utilisateur possède un token
                   if (req.body.token) {
-                        if (table == 'activites') {
-                              bdd.add(tableObj, req.body, res)
-                        }
-
+                        console.log("salut")
+                        bdd.add(tableObj, req.body, res)
                   }
             }
       })
