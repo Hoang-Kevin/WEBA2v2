@@ -43,23 +43,26 @@ module.exports.add = function (table, jsonData, res) {
             connection.sequelize.query('SELECT `personnes`.`id` FROM `personnes` WHERE `personnes`.`nom` = \'' + jsonData.NomUser + '\' AND `personnes`.`prenom` = \'' + jsonData.prenom + '\'')
                 .then(response => {
                     var { id } = response[0][0]
-                    console.log(jsonData)
-                    table.create({id_personne_id: id, description: jsonData.description, nom: jsonData.nom, image: jsonData.image, date: jsonData.date, recurrence: jsonData.recurrence, cout: jsonData.cout, valide: jsonData.valide})
-                    //table.create({ })
+                    table.findOne({ where: { id_personne_id: id, description: jsonData.description, nom: jsonData.nom, image: jsonData.image/*, date: jsonData.date*/, recurrence: jsonData.recurrence, cout: jsonData.cout, valide: jsonData.valide } })
+                        .then(activité => {
+                            console.log(activité)
+                            if (!activité) {
+                                table.create({ id_personne_id: id, description: jsonData.description, nom: jsonData.nom, image: jsonData.image, date: jsonData.date, recurrence: jsonData.recurrence, cout: jsonData.cout, valide: jsonData.valide })
+                                res.json({ added: true })
+                            } else {
+                                res.json({ added: false })
+                            }
+                        })
                 })
             break
-        // case "roles":
-        //     table.findOne({ where: { name: jsonData.name } })
-        //         .then(function (role) {
-        //             if (role) {
-        //                 console.log(role)
-        //                 return false
-        //             } else {
-        //                 table.create({ name: jsonData.name })
-        //                 return true
-        //             }
-        //         })
-        //     break
+        case "produits":
+            console.log("Cas produits : ")
+            connection.sequelize.query('SELECT `categories`.`id` FROM `categories` WHERE `categories`.`categorie` = \'' + jsonData.categorie + '\'')
+                .then(response => {
+                    //var { id } = response[0][0]
+                    table.create({ id_categorie_id: jsonData.id_categorie, nom: jsonData.nom, description: jsonData.description, prix: jsonData.prix, image: jsonData.image })
+                })
+            break
     }
 }
 
