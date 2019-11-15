@@ -79,5 +79,5 @@ module.exports.delete = function (table, jsonData) {
 }
 
 module.exports.verifRole = function (mail) {
-    return connection.sequelize.query('SELECT `users`.`id`, `users`.`roles_id`, `users`.`name`, `users`.`firstname`, `users`.`mail`, `users`.`mdp`, `users`.`localisation`, `users`.`roles_Id`, `role`.`id` AS `role.id`, `role`.`name` AS `role.name` FROM `users` AS `users` LEFT OUTER JOIN `roles` AS `role` ON `users`.`roles_id` = `role`.`id` WHERE `users`.`mail` = "' + mail + '" LIMIT 1')
+    return connection.sequelize.query('SELECT `roles`.`role` FROM `personnes` INNER JOIN `roles` ON `personnes`.`id_role_id` = `roles`.`id` WHERE `personnes`.`adressemail` = "' + mail + '" LIMIT 1')
 }
