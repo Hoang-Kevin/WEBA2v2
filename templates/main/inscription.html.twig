@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}INSCRIPTION{% endblock %}
+{% block title %}Inscription{% endblock %}
 
 {% block stylesheets %}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/inscription.css') }}" media="all" />
@@ -21,12 +21,20 @@
 	{{ form_row(formInscription.adressemail,{'attr': {'placeholder': "noel.flantier@viacesi.fr"}}) }}
 	{{ form_row(formInscription.motdepasse,{'attr': {'placeholder': "Idilj87"}}) }}
 
-     <div>
-		<input type="checkbox" id="subscribeNews" name="subscribe" value="newsletter"> 
+   <div>
+		<input type="checkbox" id="subscribeNews" name="subscribe" value="newsletter">
 			<label for="subscribeNews">J’accepte les conditions du règlement</label>
-	 </div> 
+	 </div>
 
-	<button type="submit" class="btn btn-success">S'inscrire</button>
+   <form action="page.php" method="post" onsubmit="return valid(this);">
+      <p>
+        Accepter les conditions : <input type="checkbox" name="box" /><br />
+        <button type="submit" class="btn btn-success" value="Valider">S'inscrire</button>
+      </p>
+    </form>
+    <script type="text/javascript" src="{{ asset('js/verif.js') }}"></script>
+
+    	<button type="submit" class="btn btn-success">S'inscrire</button>
 
 	{{ form_end(formInscription) }}
 
