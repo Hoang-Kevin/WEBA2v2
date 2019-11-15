@@ -7,14 +7,48 @@ use Doctrine\Common\Persistence\ObjectManager;
 use App\Entity\Personnes;
 use App\Entity\Roles;
 use App\Entity\Activites;
+use App\Entity\Categories;
+use App\Entity\Commandes;
+use App\Entity\Photos;
+use App\Entity\Commenters;
+use App\Entity\Inscrires;
+use App\Entity\Produits;
+use App\Entity\Stockers;
+use App\Entity\Voters;
 
 class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
+		//Premières Champs
 		$role = new Roles();
 		$role->setRole('Etudiant');
 		$manager->persist($role);
+		
+		$categorie = new Categories();
+		$categorie->setCategorie('Vêtement');
+		$manager->persist($categorie);
+		
+		$produit = new Produits();
+		$produit->setIdCategorie($categorie);
+		$produit->setNom('Pull Cesi');
+		$produit->setDescription('Pull Cesi 100% coton floqué avec les emblêmes du Cesi');
+		$produit->setPrix('35');
+		$manager->persist($produit);
+
+		$produit = new Produits();
+		$produit->setIdCategorie($categorie);
+		$produit->setNom('Polo Cesi');
+		$produit->setDescription('Polo Cesi 100% coton floqué avec les emblêmes du Cesi');
+		$produit->setPrix('20');
+		$manager->persist($produit);
+		
+		$produit = new Produits();
+		$produit->setIdCategorie($categorie);
+		$produit->setNom('T-shirt Wild Box');
+		$produit->setDescription('T-shirt Wild Box 100% coton floqué avec les emblêmes personnalisés des avatars Wild Box');
+		$produit->setPrix('25');
+		$manager->persist($produit);
 		
 		$personne = new Personnes();
 		$personne->setIdRole($role);
@@ -26,8 +60,19 @@ class AppFixtures extends Fixture
 		$personne->setMotdepasse(crypt('FLANTIER18', 'dkPOpjfiIsjni16/idjsdi:AZEIIjsdquIisdsji/1839'));
 		$personne->setValide('TRUE');
 		$manager->persist($personne);
-			
-		$activite = new Activites;
+		
+		$commande = new Commandes();
+		$commande->setIdPersonne($personne);
+		$commande->setValide('TRUE');
+		$manager->persist($commande);
+		
+		$stocker = new Stockers();
+		$stocker->setIdProduit($produit);
+		$stocker->setIdCommande($commande);
+		$stocker->setQuantite('1');		
+		$manager->persist($stocker);
+		
+		$activite = new Activites();
 		$activite->setIdPersonne($personne);
 		$activite->setDescription('Foot salle chaque jeudi après-midi');
 		$activite->setImage('foot.jpg');
@@ -37,10 +82,51 @@ class AppFixtures extends Fixture
 		$activite->setValide('TRUE');
 		$activite->setNom('Foot salle');
 		$manager->persist($activite);
+
+		$inscrire = new Inscrires();
+		$inscrire->setIdActivite($activite);
+		$inscrire->setIdPersonne($personne);
+		$manager->persist($inscrire);
 		
+		$voter = new Voters();
+		$voter->setIdActivite($activite);
+		$voter->setIdPersonne($personne);
+		$manager->persist($voter);
+
+		$photo = new Photos();
+		$photo->setIdActivite($activite);
+		$photo->setIdPersonne($personne);
+		$manager->persist($photo);
+		
+		//Deuxièmes Champs
 		$role = new Roles();
 		$role->setRole('BDE');
 		$manager->persist($role);
+		
+		$categorie = new Categories();
+		$categorie->setCategorie('Goodies');
+		$manager->persist($categorie);
+
+		$produit = new Produits();
+		$produit->setIdCategorie($categorie);
+		$produit->setNom('Casquet Cesi');
+		$produit->setDescription('Casquet Cesi 100% coton floqué avec les emblêmes du Cesi');
+		$produit->setPrix('10');
+		$manager->persist($produit);
+		
+		$produit = new Produits();
+		$produit->setIdCategorie($categorie);
+		$produit->setNom('Bonnet Cesi');
+		$produit->setDescription('Bonnet Cesi 100% coton floqué avec les emblêmes du Cesi');
+		$produit->setPrix('15');
+		$manager->persist($produit);
+		
+		$produit = new Produits();
+		$produit->setIdCategorie($categorie);
+		$produit->setNom('Bob Cesi');
+		$produit->setDescription('Bob Cesi 100% coton floqué avec les emblêmes du Cesi');
+		$produit->setPrix('20');
+		$manager->persist($produit);
 
 		$personne = new Personnes();
 		$personne->setIdRole($role);
@@ -53,7 +139,7 @@ class AppFixtures extends Fixture
 		$personne->setValide('TRUE');
 		$manager->persist($personne);
 
-		$activite = new Activites;
+		$activite = new Activites();
 		$activite->setIdPersonne($personne);
 		$activite->setDescription('LAN de jeux vidéos lors de la journée de vendredi avec entrée à 3€');
 		$activite->setImage('jdr.png');
@@ -63,7 +149,29 @@ class AppFixtures extends Fixture
 		$activite->setValide('TRUE');
 		$activite->setNom('LAN');
 		$manager->persist($activite);
+
+		$inscrire = new Inscrires();
+		$inscrire->setIdActivite($activite);
+		$inscrire->setIdPersonne($personne);
+		$manager->persist($inscrire);
 		
+		$voter = new Voters();
+		$voter->setIdActivite($activite);
+		$voter->setIdPersonne($personne);
+		$manager->persist($voter);
+		
+		$photo = new Photos();
+		$photo->setIdActivite($activite);
+		$photo->setIdPersonne($personne);
+		$manager->persist($photo);
+		
+		$commentaire = new Commenters();
+		$commentaire->setIdPhoto($photo);
+		$commentaire->setIdPersonne($personne);
+		$commentaire->setCommentaire('ça va être trop fun XD');
+		$manager->persist($commentaire);
+		
+		//Troisièmes Champs
 		$role = new Roles();
 		$role->setRole('CESI');
 		$manager->persist($role);	
@@ -79,6 +187,17 @@ class AppFixtures extends Fixture
 		$personne->setValide('TRUE');
 		$manager->persist($personne);
 		
+		$commande = new Commandes();
+		$commande->setIdPersonne($personne);
+		$commande->setValide('TRUE');
+		$manager->persist($commande);
+
+		$stocker = new Stockers();
+		$stocker->setIdProduit($produit);
+		$stocker->setIdCommande($commande);
+		$stocker->setQuantite('2');		
+		$manager->persist($stocker);
+		
 		$activite = new Activites;
 		$activite->setIdPersonne($personne);
 		$activite->setDescription('Jeux de rôle sur table Stellaris le jeudi après midi une fois par mois');
@@ -89,6 +208,21 @@ class AppFixtures extends Fixture
 		$activite->setValide('TRUE');
 		$activite->setNom('Jeux de rôle sur table');
 		$manager->persist($activite);
+		
+		$inscrire = new Inscrires();
+		$inscrire->setIdActivite($activite);
+		$inscrire->setIdPersonne($personne);
+		$manager->persist($inscrire);
+		
+		$voter = new Voters();
+		$voter->setIdActivite($activite);
+		$voter->setIdPersonne($personne);
+		$manager->persist($voter);
+		
+		$photo = new Photos();
+		$photo->setIdActivite($activite);
+		$photo->setIdPersonne($personne);
+		$manager->persist($photo);
 		
         $manager->flush();
     }
