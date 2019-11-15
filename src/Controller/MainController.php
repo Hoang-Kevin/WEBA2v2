@@ -343,12 +343,27 @@ class MainController extends AbstractController
      *  @Route("/evenement"), name="evenement")
      */
     public function evenement() {
+		
+		//définition de url
+		$url='http://localhost:3000/activites';
+		
+		//ouverture de la connexion
+		$open_co = curl_init ();
+
+		//configuration de l'envoie et envoie
+		curl_setopt($open_co, CURLOPT_URL,$url );
+		curl_setopt($open_co, CURLOPT_RETURNTRANSFER, true);
+
+		//réponse
+		$return = curl_exec($open_co);
+
+		//décode le json
+		$result = json_decode($return, true);
+		dump($result);
+			
         return $this->render('main/evenement.html.twig', [
             'Title' => "Bonjour, bonjour"
-
-
         ]);
-
 	}
 
 	/**
