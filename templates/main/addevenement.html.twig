@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter Produit{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/addproduit.css') }}" media="all" />
+{% endblock %}
+
+
+{% block body %}
+
+<div class="background">
+	<h3>Formulaire ajouter un produit</h3>
+
+	{{ form_start(formAddEvent) }}
+
+	{{ form_row(formAddEvent.image,{'attr': {'placeholder': "Pull Cesi"}}) }}
+	{{ form_row(formAddEvent.description,{'attr': {'placeholder': "Pull Cesi 100% coton"}}) }}
+	<button type="submit" class="btn btn-success">Ajouter Evenement</button>
+	{{ form_end(formAddEvent) }}
+	
+	
+
+</div>
+{% endblock %}
