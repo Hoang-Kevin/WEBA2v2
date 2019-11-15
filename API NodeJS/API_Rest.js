@@ -141,17 +141,22 @@ app.listen(port, hostname, function () {
 function connect(req, res) {
       var result = {}
       bdd.connect(enumTable.table(req.path.split('/')[1]), req.body)
-            .then(function (response) {
+            .then(response => {
                   if (response) {
                         status = 200
+                        bdd.verifRole(response.dataValues.adressemail)
+                              .then(responseTest => {
+                                    var role = responseTest[0][0].role
+                                    console.log(role)
+                                    const payload = { "mail": response.dataValues.adressemail }
+                                    var token = jsToken.create(payload, secret, "HS256")
+                                    token = token.compact()
+                                    result.token = token
+                                    result.role = role
+                                    result.connect = true
+                                    res.status(status).json(result)
+                              })
 
-                        const payload = { "mail": response.dataValues.mail }
-                        var token = jsToken.create(payload, secret, "HS256")
-                        token = token.compact()
-                        result.token = token
-                        result.status = status
-                        result.connect = true
-                        res.status(status).json(result)
                   } else {
                         res.json({ connect: false })
                   }
