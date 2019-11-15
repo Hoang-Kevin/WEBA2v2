@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\HttpClient\CurlHttpClient;
 use App\Entity\Personnes;
 use App\Entity\Produits;
@@ -345,8 +346,9 @@ class MainController extends AbstractController
 
 
 		if($form->isSubmitted() && $form->isValid()) {
+
 			$data = $form->getData();
-			
+
 			$json_data = $serializer->serialize($data, 'json');
 
 			$url = 'http://localhost:3000/activites';
@@ -397,9 +399,24 @@ class MainController extends AbstractController
 				//décode le json
 				$result = json_decode($return, true);
 
-
-
+				if($result['added'] == "true")
+				{
+					?>
+					<script>alert("Ajout réussi !")</script>
+					<?php
+					header("Status: 301 Moved Permanently", false, 301);
+					header('Location : /');
+					exit;
+				}
+				else
+				{
+					?>
+					<script>alert("Ajout echouée !")</script>
+					<?php
+				}
+	
 			}
+
 		}
 
 

@@ -109,14 +109,14 @@ class Activites
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDate()
     {
         return $this->date;
     }
 
     public function setDate(\DateTimeInterface $date): self
     {
-        $this->date = $date;
+        $this->date = $date->format('Y-m-d');
 
         return $this;
     }
