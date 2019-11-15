@@ -132,10 +132,17 @@
                         </div>
                     </div>
                 </div>
-
+                    {% if app.session.get('connect') == false %}
                     <div class="nav-item">
                     <a class="nav-link" href="/connexion">Connexion</a>
                     </div>
+                    {% endif %}
+
+                    {% if app.session.get('connect') == true %}
+                    <div class="nav-item">
+                    <a class="nav-link" href="/connexion">Déconnexion</a>
+                    </div>
+                    {% endif %}
                 </div>
             </nav>
     </header>
@@ -164,7 +171,10 @@
 
               <div class="user-info">
                 <span class="user-name">
-                  <strong>Smith</strong>
+                  <strong>{% if app.session.get('connect') == true %}
+                {{ app.session.get('Nom')}} {{ app.session.get('prenom')}}
+                {% else %} Non connecté
+                    {% endif %} </strong>
                 </span>
                 <span class="user-role">Administrator</span>
                 <span class="user-status">

@@ -24,6 +24,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class MainController extends AbstractController
 {
@@ -130,6 +131,17 @@ class MainController extends AbstractController
 		]);
     }
 	
+
+	/**
+     * @Route("/boutique/panier", name="panier")
+     */
+    public function panier()
+    {
+        return $this->render('main/panier.html.twig', [
+        ]);
+	}
+	
+
     /**
      *  @Route("/boutique/sup"), name="boutique")
      */
@@ -387,6 +399,7 @@ class MainController extends AbstractController
 		$encoders = [new JsonEncoder()];
 		$normalizers = [new ObjectNormalizer()];
 		$serializer = new Serializer($normalizers, $encoders);
+		
 
 		//paramètre du formulaire relier aux attributs de l'object Personne
 		$form = $this->createFormBuilder($personne)
@@ -442,6 +455,21 @@ class MainController extends AbstractController
 			}
 			else
 			{
+				$token = $result['token'];
+				$Nom = $result['nom'];
+				$prenom = $result['prenom'];
+				$connect = $result['connect'];
+				$role = $result['role'];
+
+
+
+				$sess = $request->getSession();
+				$sess->set('token', $token);
+				$sess->set('Nom', $Nom);
+				$sess->set('prenom', $prenom);
+				$sess->set('connect', $connect);
+				$sess->set('role', $role);
+
 				header("Status: 301 Moved Permanently", false, 301);
 				header('Location : /');
 				exit;				
