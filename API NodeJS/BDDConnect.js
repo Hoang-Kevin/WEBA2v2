@@ -38,9 +38,9 @@ module.exports.add = function (table, jsonData, res) {
                     }
                 })
             break
-        case "inscriptions":
-            console.log("bonjour2")
-            table.create({ date: jsonData.date })
+        case "activites":
+            console.log("Cas activites : ")
+            //table.create({ date: jsonData.date })
             break
         // case "roles":
         //     table.findOne({ where: { name: jsonData.name } })
@@ -79,5 +79,5 @@ module.exports.delete = function (table, jsonData) {
 }
 
 module.exports.verifRole = function (mail) {
-    return connection.sequelize.query('SELECT `roles`.`role` FROM `personnes` INNER JOIN `roles` ON `personnes`.`id_role_id` = `roles`.`id` WHERE `personnes`.`adressemail` = "' + mail + '" LIMIT 1')
+    return connection.sequelize.query('SELECT `roles`.`role`, `personnes`.`prenom`, `personnes`.`nom` FROM `personnes` INNER JOIN `roles` ON `personnes`.`id_role_id` = `roles`.`id` WHERE `personnes`.`adressemail` = "' + mail + '" LIMIT 1')
 }
