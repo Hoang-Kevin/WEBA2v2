@@ -14,8 +14,13 @@
 
 	{{ form_start(formAddEvent) }}
 
-	{{ form_row(formAddEvent.image,{'attr': {'placeholder': "Pull Cesi"}}) }}
-	{{ form_row(formAddEvent.description,{'attr': {'placeholder': "Pull Cesi 100% coton"}}) }}
+	{{ form_row(formAddEvent.nom,{'attr': {'placeholder': "Nom de l'activité"}}) }}
+	{{ form_row(formAddEvent.image,{'attr': {'placeholder': "IMAGE"}}) }}
+	{{ form_row(formAddEvent.description,{'attr': {'placeholder': "Description"}}) }}
+	{{ form_row(formAddEvent.date,{'attr': {'format': "yyyy-MM-dd"}}) }}
+	{{ form_row(formAddEvent.cout) }}
+	{{ form_row(formAddEvent.recurrence) }}
+	{{ form_row(formAddEvent.valide) }}
 	<button type="submit" class="btn btn-success">Ajouter Evenement</button>
 	{{ form_end(formAddEvent) }}
 	

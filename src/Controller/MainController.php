@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\HttpClient\CurlHttpClient;
 use App\Entity\Personnes;
 use App\Entity\Produits;
@@ -330,8 +331,10 @@ class MainController extends AbstractController
 		$serializer = new Serializer($normalizers, $encoders);
 
 		$form = $this->createFormBuilder($evenement)
+					 ->add('nom', TextType::class)
 					 ->add('description', TextType::class)
 					 ->add('image', TextType::class)
+					 ->add('date', DateType::class)
 					 ->add('cout', CheckboxType::class)
 					 ->add('recurrence', CheckboxType::class)
 					 ->add('valide', CheckboxType::class)
@@ -342,41 +345,61 @@ class MainController extends AbstractController
 
 
 		if($form->isSubmitted() && $form->isValid()) {
-			$evenement->setDate(new \DateTime());
 			$data = $form->getData();
+			
 			$json_data = $serializer->serialize($data, 'json');
 
 			$url = 'http://localhost:3000/activites';
 
 			$open_co=curl_init();
-
-			$header = [
-				'Accept: application/json',
-				'Content-Type: application/json'
-			];
-
-			dump($json_data);
+			$sess = $request->getSession();
+			$token = $sess->get('token');
+			$NomUser = $sess->get('Nom');
+			$prenom = $sess->get('prenom');
 
 
-			//configuration de l'envoie et envoie
-			curl_setopt($open_co, CURLOPT_URL,$url );
-			curl_setopt($open_co, CURLOPT_CUSTOMREQUEST, "POST");
 
-			curl_setopt($open_co, CURLOPT_HTTPHEADER, $header);
-			curl_setopt($open_co, CURLOPT_POSTFIELDS, $json_data);
 
-			curl_setopt($open_co, CURLOPT_RETURNTRANSFER, true);
+			if($form->isSubmitted() && $form->isValid()) {
+				$header = [
+					'Accept: application/json',
+					'Content-Type: application/json',
+				];
+				
+				$decoded = json_decode($json_data, true);
 
-			$return = curl_exec($open_co);
+				
+				$decoded['token'] = $token;
+				$decoded['NomUser'] = $NomUser;
+				$decoded['prenom'] = $prenom;
 
-			//fermeture de la connection
-			curl_close($open_co);
+				$json_data = $serializer->serialize($decoded, 'json');
+				dump($json_data);
 
-			//décode le json
-			$result = json_decode($return);
 
-			dump($result);
+				
 
+				
+				//configuration de l'envoie et envoie
+				curl_setopt($open_co, CURLOPT_URL,$url );
+				curl_setopt($open_co, CURLOPT_CUSTOMREQUEST, "POST");
+
+				curl_setopt($open_co, CURLOPT_HTTPHEADER, $header);
+				curl_setopt($open_co, CURLOPT_POSTFIELDS, $json_data);
+
+				curl_setopt($open_co, CURLOPT_RETURNTRANSFER, true);
+
+				$return = curl_exec($open_co);
+				dump($request);
+				//fermeture de la connection
+				curl_close($open_co);
+
+				//décode le json
+				$result = json_decode($return, true);
+
+
+
+			}
 		}
 
 
