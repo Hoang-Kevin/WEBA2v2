@@ -23,31 +23,28 @@ myRouter.route(['/personnes', '/personnes/[0-9]+', '/inscriptions', '/roles', '/
 
             //On recupere d'abord les informations de l'URL
             var path = req.path.split('/')
-            var table = path[1]
+            var table = path[1]/*.split('?')[0]*/
+            console.log(table)
 
             //On transforme le String "table" en Objet
             var tableObj = enumTable.table(table)
 
             //On recupere les parametres de l'URL
             var query = req.query
+            var isQuery = Object.keys(query).length == 0 ? false : true
+
             var array = []
             if (table == "produits" || table == "activites") {
 
                   //On execute la requête SQL et on recupere la reponse
-                  bdd.select(tableObj, query)
+                  bdd.select(tableObj, query, isQuery)
                         .then(response => {
-                              if (!query) {
-                                    if (response.length) {
-                                          for (let i = 0; i < response.length; i++) {
-                                                array.push(response[i].dataValues)
-                                          }
-                                    } else {
-                                          array.push(response.dataValues)
+                              if (response.length) {
+                                    for (let i = 0; i < response.length; i++) {
+                                          array.push(response[i].dataValues)
                                     }
                               } else {
-                                    for (let i = 0; i < response[0].length; i++) {
-                                          array.push(response[0][i])
-                                    }
+                                    array.push(response.dataValues)
                               }
                               res.json(array)
                         })
@@ -125,7 +122,7 @@ myRouter.route(['/personnes', '/personnes/[0-9]+', '/inscriptions', '/roles', '/
       .put(function (req, res) {
             bdd.modify(enumTable.table(req.path.split('/')[1]), req.body, res)
       })
-      
+
       //DELETE
       .delete(function (req, res) {
             bdd.delete(enumTable.table(req.path.split('/')[1]), req.body)
