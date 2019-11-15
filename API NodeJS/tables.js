@@ -90,10 +90,10 @@ module.exports.Products = connection.sequelize.define('produits', {
         type: Sequelize.STRING,
         allowNull: false
     },
-    // nb_vendu: {
-    //     type: Sequelize.INTEGER,
-    //     allowNull: false
-    // }
+    image: {
+        type: Sequelize.STRING,
+        allowNull: false
+    }
 }, {
     timestamps: false
 })
