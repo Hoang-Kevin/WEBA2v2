@@ -46,7 +46,6 @@ class MainController extends AbstractController
     public function home() {
 
         return $this->render('main/home.html.twig', [
-            'cookie1' => $cookie->getValue('isconnected')
         ]);
 
     }
@@ -385,6 +384,9 @@ class MainController extends AbstractController
 		//$cookie = new Cookie('isconnected', 'false', strtotime('now + 10 minutes'));
 		//création d'un object personne vide
 		$personne = new Personnes();
+		$encoders = [new JsonEncoder()];
+		$normalizers = [new ObjectNormalizer()];
+		$serializer = new Serializer($normalizers, $encoders);
 
 		//paramètre du formulaire relier aux attributs de l'object Personne
 		$form = $this->createFormBuilder($personne)
@@ -402,29 +404,38 @@ class MainController extends AbstractController
 		if($form->isSubmitted() && $form->isValid()) {
 			
 			//transforme en json les réponses du formulaire
-			$login=json_encode($personne, true);
-			dump($login);
-			$url = 'htpp://localhost:3000/users';
+			$data = $form->getData();
+			$json_data = $serializer->serialize($data, 'json');
+			$url = 'http://localhost:3000/personnes?connect=true';
+			$header = [
+				'Accept: application/json',
+				'Content-Type: application/json'
+			];
 			
+			dump($json_data);
 			//ouverture de la connexion			
 			$open_co = curl_init ();
 			
 			//configuration de l'envoie et envoie
-			curl_setopt($open_co,CURLOPT_URL,$url);
-			curl_setopt($open_co, CURLOPT_POST, true);
-			curl_setopt($open_co,CURLOPT_POSTFIELDS,$login);
+			curl_setopt($open_co, CURLOPT_URL,$url );
+			curl_setopt($open_co, CURLOPT_CUSTOMREQUEST, "POST");
+		
+			curl_setopt($open_co, CURLOPT_HTTPHEADER, $header);
+			curl_setopt($open_co, CURLOPT_POSTFIELDS, $json_data);						
+						
 			curl_setopt($open_co, CURLOPT_RETURNTRANSFER, true);
-			curl_setopt($open_co, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+			
 			
 			//réponse
 			$return = curl_exec($open_co);	
 			
 			//décode le json 
-			$result = json_decode($return);
+			$result = json_decode($return, true);
+			dump($result);
 			
 			//retourne si la connexion à réussi le token
-			/*
-			if($result['token']==NULL){
+			
+			if($result['connect']==false){
 				header("Status: 301 Moved Permanently", false, 301);
 				header('Location : /connexion/error');
 				exit;
@@ -435,7 +446,8 @@ class MainController extends AbstractController
 				header('Location : /');
 				exit;				
 			}
-			*/
+			
+		
 		
 			curl_close($open_co);		
 		}
