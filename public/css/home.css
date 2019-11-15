@@ -12,9 +12,8 @@ padding: 15px;
 
 .vente{
     color: black;
-    text-align: left;
-    font-size: 40px;
-    left: 10px;
+    text-align: center;
+    font-size: 35px;
     text-decoration: underline;
 }
 
@@ -26,6 +25,7 @@ padding: 15px;
 #titre{
   font-size: 30px;
   color: white;
+  text-align: center;
 }
 
 #car12{
