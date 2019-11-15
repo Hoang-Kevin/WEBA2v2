@@ -20,21 +20,12 @@
 	{{ form_row(formInscription.campus,{'attr': {'placeholder': "Lille"}}) }}
 	{{ form_row(formInscription.adressemail,{'attr': {'placeholder': "noel.flantier@viacesi.fr"}}) }}
 	{{ form_row(formInscription.motdepasse,{'attr': {'placeholder': "Idilj87"}}) }}
+	{{ form_row(formInscription.valide,{'attr': {'placeholder': "checkbox"}}) }}
 
-   <div>
-		<input type="checkbox" id="subscribeNews" name="subscribe" value="newsletter">
-			<label for="subscribeNews">J’accepte les conditions du règlement</label>
-	 </div>
+	<a href="/pdc"> Conditions du règlement </a></br>
 
-   <form action="page.php" method="post" onsubmit="return valid(this);">
-      <p>
-        Accepter les conditions : <input type="checkbox" name="box" /><br />
+
         <button type="submit" class="btn btn-success" value="Valider">S'inscrire</button>
-      </p>
-    </form>
-    <script type="text/javascript" src="{{ asset('js/verif.js') }}"></script>
-
-    	<button type="submit" class="btn btn-success">S'inscrire</button>
 
 	{{ form_end(formInscription) }}
 

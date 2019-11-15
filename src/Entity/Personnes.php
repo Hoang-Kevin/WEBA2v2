@@ -83,6 +83,11 @@ class Personnes
      */
     private $commenters;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $valide;
+
     public function __construct()
     {
         $this->commandes = new ArrayCollection();
@@ -364,6 +369,18 @@ class Personnes
                 $commenter->setIdPersonne(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getValide(): ?bool
+    {
+        return $this->valide;
+    }
+
+    public function setValide(?bool $valide): self
+    {
+        $this->valide = $valide;
 
         return $this;
     }

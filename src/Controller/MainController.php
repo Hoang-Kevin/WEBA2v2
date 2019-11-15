@@ -218,6 +218,7 @@ class MainController extends AbstractController
 					 ->add('campus', TextType::class)
 					 ->add('adressemail', EmailType::class)
 					 ->add('motdepasse', PasswordType::class)
+					 ->add('valide', CheckboxType::class, ['label' => "J'accepte les conditions du règlements"])
 					 ->getForm();
 		
 		//traite le formulaire
