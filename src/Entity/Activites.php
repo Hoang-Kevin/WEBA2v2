@@ -51,7 +51,7 @@ class Activites
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Personnes", inversedBy="activites")
      */
-    private $id_personne;
+    private $id_personne_id;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Voters", mappedBy="id_activite")
@@ -159,12 +159,12 @@ class Activites
 
     public function getIdPersonne(): ?Personnes
     {
-        return $this->id_personne;
+        return $this->id_personne_id;
     }
 
-    public function setIdPersonne(?Personnes $id_personne): self
+    public function setIdPersonne(?Personnes $id_personne_id): self
     {
-        $this->id_personne = $id_personne;
+        $this->id_personne_id = $id_personne_id;
 
         return $this;
     }
