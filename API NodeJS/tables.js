@@ -104,6 +104,14 @@ module.exports.Activities = connection.sequelize.define('activites', {
         primaryKey: true,
         autoIncrement: true
     },
+    nom: {
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
+    description: {
+        type: Sequelize.STRING,
+        allowNull: true,
+    },
     id_personne_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
