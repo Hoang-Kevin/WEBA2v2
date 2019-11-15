@@ -177,7 +177,7 @@
                 {% else %} Non connecté
                     {% endif %} </strong>
                 </span>
-                <span class="user-role">Administrator</span>
+                <span class="user-role">{{ app.session.get('role')}}</span>
                 <span class="user-status">
                   <i class="fa fa-circle"></i>
                   <span>Online</span>
