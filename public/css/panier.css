@@ -1,3 +1,23 @@
 .background{
   background-color: #CCCCCC;
 }
+
+thead{
+  color: black;
+}
+
+.col-sm-1{
+  color: black;
+}
+
+.col-md-1{
+  color: black;
+}
+
+h3{
+  color: black;
+}
+
+.btn{
+  color: black;
+}

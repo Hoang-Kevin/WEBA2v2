@@ -17,9 +17,19 @@
 
         <h1 class="my-4">Boutique</h1>
         <div class="list-group">
-          <a href="#" class="list-group-item">Vêtements</a>
-          <a href="#" class="list-group-item">Goodies</a>
-          <a class="panier" href="/boutique/panier"> Panier </a>
+          <a href="/produit?categorie=vetements" class="list-group-item">Vêtements</a>
+          <a href="/produit?categorie=goodies" class="list-group-item">Goodies</a><br>
+          <a href="/boutique/panier" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Panier</a>
+          <br>
+
+    <div class="recherche_p">
+
+      <form action="produit" id="searchthis" method="get">
+        <input id="search" name="nom" type="text" placeholder="Rechercher" />
+        <input id="search-btn" type="submit" value="Rechercher" />
+      </form>
+    </div>
+
         </div>
       </div>
       <!-- /.col-lg-3 -->
