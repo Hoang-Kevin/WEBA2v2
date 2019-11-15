@@ -28,14 +28,14 @@ class AppFixtures extends Fixture
 		$manager->persist($personne);
 			
 		$activite = new Activites;
-		$activite=setIdPersonne($personne);
-		$activite=setDescription('Foot salle chaque jeudi après-midi');
-		$activite=setImage('foot.jpg');
-		$activite=setDate('22/11/2019');
-		$activite=setCout('TRUE');
-		$activite=setRecurrence('TRUE');
-		$activite=setValide('TRUE');
-		$activite=setNom('Foot salle');
+		$activite->setIdPersonne($personne);
+		$activite->setDescription('Foot salle chaque jeudi après-midi');
+		$activite->setImage('foot.jpg');
+		$activite->setDate(new \DateTime('2019/11/22'));
+		$activite->setCout('TRUE');
+		$activite->setRecurrence('TRUE');
+		$activite->setValide('TRUE');
+		$activite->setNom('Foot salle');
 		$manager->persist($activite);
 		
 		$role = new Roles();
@@ -54,14 +54,14 @@ class AppFixtures extends Fixture
 		$manager->persist($personne);
 
 		$activite = new Activites;
-		$activite=setIdPersonne($personne);
-		$activite=setDescription('LAN de jeux vidéos lors de la journée de vendredi avec entrée à 3€');
-		$activite=setImage('jdr.png');
-		$activite=setDate('13/12/2019');
-		$activite=setCout('TRUE');
-		$activite=setRecurrence('FALSE');
-		$activite=setValide('TRUE');
-		$activite=setNom('LAN');
+		$activite->setIdPersonne($personne);
+		$activite->setDescription('LAN de jeux vidéos lors de la journée de vendredi avec entrée à 3€');
+		$activite->setImage('jdr.png');
+		$activite->setDate(new \DateTime('2019/11/22'));
+		$activite->setCout('TRUE');
+		$activite->setRecurrence('FALSE');
+		$activite->setValide('TRUE');
+		$activite->setNom('LAN');
 		$manager->persist($activite);
 		
 		$role = new Roles();
@@ -80,14 +80,14 @@ class AppFixtures extends Fixture
 		$manager->persist($personne);
 		
 		$activite = new Activites;
-		$activite=setIdPersonne($personne);
-		$activite=setDescription('Jeux de rôle sur table Stellaris le jeudi après midi une fois par mois');
-		$activite=setImage('LAN.jpg');
-		$activite=setDate('29/11/2019');
-		$activite=setCout('FALSE');
-		$activite=setRecurrence('TRUE');
-		$activite=setValide('TRUE');
-		$activite=setNom('Jeux de rôle sur table');
+		$activite->setIdPersonne($personne);
+		$activite->setDescription('Jeux de rôle sur table Stellaris le jeudi après midi une fois par mois');
+		$activite->setImage('LAN.jpg');
+		$activite->setDate(new \DateTime('2019/11/22'));
+		$activite->setCout('FALSE');
+		$activite->setRecurrence('TRUE');
+		$activite->setValide('TRUE');
+		$activite->setNom('Jeux de rôle sur table');
 		$manager->persist($activite);
 		
         $manager->flush();
