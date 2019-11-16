@@ -68,22 +68,24 @@
         </div>
 
         <div class="row">
-
+		
+		{% if produit is defined %}
+		{% for produit in produit %}
           <div class="col-lg-4 col-md-6 mb-4">
             <div class="card h-100">
-              <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+              <a href="#"><img class="card-img-top" src="{{ produit.image }}" alt=""></a>
               <div class="card-body">
                 <h4 class="card-title">
-                  <div id="titre" href="#">Nom</div>
+                  <div id="titre" href="#">{{produit.nom}}</div>
+				  <div id="titre" href="#">{{produit.description}}</div>
                 </h4>
                 <h5>Prix</h5>
-                <p class="card-text">Description</p>
-              </div>
-              <div class="card-footer">
-                <small class="text-muted">★ ★ ★ ★ ☆</small>
+                <p class="card-text">{{produit.prix}}</p>
               </div>
             </div>
           </div>
+		{% endfor %}
+		{% endif %}
 
         </div>
         <!-- /.row -->
