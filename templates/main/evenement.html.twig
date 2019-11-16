@@ -10,36 +10,20 @@
 <div class="background">
 
   <h1>Événements</h1>
-  {% if app.session.get('role') == "BDE" %}
+{% if app.session.get('role') == "BDE" %}
     <a href="evenement/new"> AJOUTER EVENEMENT </a>
-  {% endif %}
-<div class="card-group">
-  <div class="card">
-    <img class="card-img-top" src="{{ asset('images/logoCESI.png') }}" alt="Card image cap">
-    <div class="card-body">
-      <h5 class="card-title">Titre</h5>
-      <p class="card-text">Description</p>
-      <p class="card-text"><small class="text-muted">Jour de l'evenement</small></p>
-    </div>
-  </div>
-  <div class="card">
-    <img class="card-img-top" src="{{ asset('images/logoCESI.png') }}" alt="Card image cap">
-    <div class="card-body">
-      <h5 class="card-title">Titre</h5>
-      <p class="card-text">Description</p>
-      <p class="card-text"><small class="text-muted">Jour de l'evenement</small></p>
-    </div>
-  </div>
-  <div class="card">
-    <img class="card-img-top" src="{{ asset('images/logoCESI.png') }}" alt="Card image cap">
-    <div class="card-body">
-      <h5 class="card-title">Titre</h5>
-      <p class="card-text">Description</p>
-      <p class="card-text"><small class="text-muted">Jour de l'evenement</small></p>
-    </div>
-  </div>
-</div>
-
-
+{% endif %}
+{%for activite in activite%}
+	<div class="card-group">
+		<div class="card">
+			<img class="card-img-top" src="{{ asset({{activite.image}}) }}" alt="Card image cap">
+				<div class="card-body">
+				<h5 class="card-title">{{activite.nom}}</h5>
+				<p class="card-text">{{activite.description}}</p>
+				<p class="card-text"><small class="text-muted">{{activite.date}}</small></p>
+		        </div>
+		</div>
+	</div>
+{%endfor%}
 </div>
 {% endblock %}

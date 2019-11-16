@@ -34,6 +34,7 @@ class AppFixtures extends Fixture
 		$produit->setNom('Pull Cesi');
 		$produit->setDescription('Pull Cesi 100% coton floqué avec les emblêmes du Cesi');
 		$produit->setPrix('35');
+		$produit->setimage('"https://via.placeholder.com/300x150"');
 		$manager->persist($produit);
 
 		$produit = new Produits();
@@ -41,6 +42,7 @@ class AppFixtures extends Fixture
 		$produit->setNom('Polo Cesi');
 		$produit->setDescription('Polo Cesi 100% coton floqué avec les emblêmes du Cesi');
 		$produit->setPrix('20');
+		$produit->setimage('"https://via.placeholder.com/300x150"');
 		$manager->persist($produit);
 		
 		$produit = new Produits();
@@ -48,6 +50,7 @@ class AppFixtures extends Fixture
 		$produit->setNom('T-shirt Wild Box');
 		$produit->setDescription('T-shirt Wild Box 100% coton floqué avec les emblêmes personnalisés des avatars Wild Box');
 		$produit->setPrix('25');
+		$produit->setimage('"https://via.placeholder.com/300x150"');
 		$manager->persist($produit);
 		
 		$personne = new Personnes();
@@ -75,7 +78,7 @@ class AppFixtures extends Fixture
 		$activite = new Activites();
 		$activite->setIdPersonne($personne);
 		$activite->setDescription('Foot salle chaque jeudi après-midi');
-		$activite->setImage('foot.jpg');
+		$activite->setImage('"https://via.placeholder.com/300x150"');
 		$activite->setDate(new \DateTime('2019/11/22'));
 		$activite->setCout('TRUE');
 		$activite->setRecurrence('TRUE');
@@ -112,6 +115,7 @@ class AppFixtures extends Fixture
 		$produit->setNom('Casquet Cesi');
 		$produit->setDescription('Casquet Cesi 100% coton floqué avec les emblêmes du Cesi');
 		$produit->setPrix('10');
+		$produit->setimage('"https://via.placeholder.com/300x150"');
 		$manager->persist($produit);
 		
 		$produit = new Produits();
@@ -119,6 +123,7 @@ class AppFixtures extends Fixture
 		$produit->setNom('Bonnet Cesi');
 		$produit->setDescription('Bonnet Cesi 100% coton floqué avec les emblêmes du Cesi');
 		$produit->setPrix('15');
+		$produit->setimage('"https://via.placeholder.com/300x150"');
 		$manager->persist($produit);
 		
 		$produit = new Produits();
@@ -126,6 +131,7 @@ class AppFixtures extends Fixture
 		$produit->setNom('Bob Cesi');
 		$produit->setDescription('Bob Cesi 100% coton floqué avec les emblêmes du Cesi');
 		$produit->setPrix('20');
+		$produit->setimage('"https://via.placeholder.com/300x150"');
 		$manager->persist($produit);
 
 		$personne = new Personnes();
@@ -142,7 +148,7 @@ class AppFixtures extends Fixture
 		$activite = new Activites();
 		$activite->setIdPersonne($personne);
 		$activite->setDescription('LAN de jeux vidéos lors de la journée de vendredi avec entrée à 3€');
-		$activite->setImage('jdr.png');
+		$activite->setImage('"https://via.placeholder.com/300x150"');
 		$activite->setDate(new \DateTime('2019/11/22'));
 		$activite->setCout('TRUE');
 		$activite->setRecurrence('FALSE');
@@ -201,7 +207,7 @@ class AppFixtures extends Fixture
 		$activite = new Activites;
 		$activite->setIdPersonne($personne);
 		$activite->setDescription('Jeux de rôle sur table Stellaris le jeudi après midi une fois par mois');
-		$activite->setImage('LAN.jpg');
+		$activite->setImage('"https://via.placeholder.com/300x150"');
 		$activite->setDate(new \DateTime('2019/11/22'));
 		$activite->setCout('FALSE');
 		$activite->setRecurrence('TRUE');
