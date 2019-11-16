@@ -69,23 +69,50 @@ module.exports.add = function (table, jsonData, res) {
                     }
                 })
             break
+        case "inscrires":
+            console.log("Cas inscrires : ")
+            connection.sequelize.query('SELECT `personnes`.`id` FROM `personnes` WHERE `personnes`.`nom` = \'' + jsonData.Nom + '\' AND `personnes`.`prenom` = \'' + jsonData.prenom + '\'')
+                .then(response => {
+                    var { id } = response[0][0]
+                    table.findOne({ where: { id_personne_id: id, id_activite_id: jsonData.activite_id } })
+                        .then(inscription => {
+                            if (!inscription) {
+                                table.create({ id_personne_id: id, id_activite_id: jsonData.activite_id })
+                                res.json({ added: true })
+                            } else {
+                                res.json({ added: false })
+                            }
+                        })
+                })
+            break
     }
 }
 
 module.exports.modify = function (table, jsonData) {
-    var obj = Object.keys(jsonData)
-    console.log(obj)
+
+    var queryStr = ""
+    var key = Object.keys(jsonData)
     if (jsonData.id) {
-        table.findOne(Sequelize.literal('WHERE id=' + jsonData.id))
+        table.findOne({ WHERE: { id: jsonData.id } })
             .then(function (user) {
-                for (var i = 1; i < obj.length; i++) {
-                    user[obj[i]] = jsonData[obj[i]]
+                for (var i = 1; i < key.length; i++) {
+                    user[key[i]] = jsonData[key[i]]
                 }
-                user.save().then(function () {
-                });
-            });
+                user.save()
+                    .then(() => {
+                    })
+            })
     } else {
-        connection.sequelize.query('UPDATE ' + table.name + ' SET ' + obj[0] + '="' + jsonData['changes'][obj[0]] + '" WHERE ' + obj[0] + '="' + jsonData[obj[0]] + '"')
+        for (let i = 1; i < key.length; i++) {
+            if (i != key.length - 1) {
+                queryStr = queryStr + key[i] + " = '" + jsonData[key[i]] + "', "
+            } else {
+                queryStr = queryStr + key[i] + " = '" + jsonData[key[i]] + "'"
+            }
+        }
+        console.log(queryStr)
+
+        connection.sequelize.query("UPDATE " + table.name + " SET " + queryStr + " WHERE id = " + jsonData.id)
     }
 }
 
