@@ -14,6 +14,8 @@ use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Bundle\FrameworkBundle\Tests\Fixtures\Validation\Category;
 use Symfony\Component\HttpClient\CurlHttpClient;
 use App\Entity\Personnes;
 use App\Entity\Produits;
@@ -75,11 +77,15 @@ class MainController extends AbstractController
 		$normalizers = [new ObjectNormalizer()];
 		$serializer = new Serializer($normalizers, $encoders);
 
-		$form = $this->createFormBuilder($evenement)
+		$form = $this->createFormBuilder($produit)
 					 ->add('nom', TextType::class)
 					 ->add('description', TextType::class)
 					 ->add('prix', TextType::class)
-					 ->add('id_categorie', TextType::class)
+					 ->add('categorie', ChoiceType::class, [
+						'choices' => [
+							'Vêtement' => 1,
+							'Goodies' => 2
+					 ]])
 					 ->add('image', TextType::class)
 					 ->getForm();
 
@@ -157,9 +163,9 @@ class MainController extends AbstractController
 
 
 
-        return $this->render('main/addevenement.html.twig', [
+        return $this->render('main/addproduit.html.twig', [
 			'Title' => "Bonjour, bonjour",
-			'formAddEvent' => $form->createView()
+			'formAddProduit' => $form->createView()
         ]);
 
     }
@@ -381,9 +387,15 @@ class MainController extends AbstractController
 					 ->add('description', TextType::class)
 					 ->add('image', TextType::class)
 					 ->add('date', DateType::class)
-					 ->add('cout', CheckboxType::class)
-					 ->add('recurrence', CheckboxType::class)
-					 ->add('valide', CheckboxType::class)
+					 ->add('cout', CheckboxType::class, [
+						'required' => false,
+					 ])
+					 ->add('recurrence', CheckboxType::class, [
+						'required' => false,
+					 ])
+					 ->add('valide', CheckboxType::class, [
+						'required' => false,
+					 ])
 					 ->getForm();
 
 		$form->handleRequest($request);
@@ -497,6 +509,11 @@ class MainController extends AbstractController
 
 		//On crypte le mot de passe
 		$personne->setMotdepasse(crypt($personne->getMotdepasse(), 'dkPOpjfiIsjni16/idjsdi:AZEIIjsdquIisdsji/1839'));
+
+		//Reset la connexion s'il y en avait déjà une
+		$sess = $request->getSession();
+		$sess->clear();
+
 
 		//Si le formulaire a été soumis et est valide
 		if($form->isSubmitted() && $form->isValid()) {

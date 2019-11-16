@@ -9,7 +9,7 @@
 {% form_theme formAddProduit 'bootstrap_4_Layout.html.twig' %}
 
 {% block body %}
-
+{% if app.session.get('role') == "BDE" %}
 <div class="background">
 	<h3>Formulaire ajouter un produit</h3>
 
@@ -17,11 +17,15 @@
 
 	{{ form_row(formAddProduit.nom,{'attr': {'placeholder': "Pull Cesi"}}) }}
 	{{ form_row(formAddProduit.description,{'attr': {'placeholder': "Pull Cesi 100% coton"}}) }}
-	{{ form_row(formAddProduit.prix,{'attr': {'placeholder': "35"}}) }}
+	{{ form_row(formAddProduit.prix,{'attr': {'placeholder': "35.99"}}) }}
+	{{ form_row(formAddProduit.categorie,{'attr': {'placeholder': "1 - Vetement : 2 - Goodies"}}) }}
+	{{ form_row(formAddProduit.image,{'attr': {'placeholder': "URL de L'image"}}) }}
 
-	<button type="submit" class="btn btn-sucess">Ajouter Produit</button>
+
+	<button type="submit" class="btn btn-success">Ajouter Produit</button>
 
 	{{ form_end(formAddProduit) }}
+{% endif %}
 
 </div>
 {% endblock %}

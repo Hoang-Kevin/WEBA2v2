@@ -30,6 +30,10 @@
       </form>
     </div>
 
+    {% if app.session.get('role') == "BDE"   %}
+      <a href="boutique/add"> AJOUTER PRODUITS </a>
+    {% endif %}
+
         </div>
       </div>
       <!-- /.col-lg-3 -->

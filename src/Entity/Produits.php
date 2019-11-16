@@ -48,6 +48,11 @@ class Produits
      */
     private $image;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $categorie;
+
     public function __construct()
     {
         $this->stockers = new ArrayCollection();
@@ -145,6 +150,18 @@ class Produits
     public function setImage(string $image): self
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function getCategorie(): ?int
+    {
+        return $this->categorie;
+    }
+
+    public function setCategorie(int $categorie): self
+    {
+        $this->categorie = $categorie;
 
         return $this;
     }
