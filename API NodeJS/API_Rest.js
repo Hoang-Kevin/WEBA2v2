@@ -9,15 +9,18 @@ const secret = "5[:8j£NQ4Vcj"
 // Nous définissons ici les paramètres du serveur.
 const hostname = 'localhost';
 const port = 3000;
-// Nous créons un objet de type Express.
+
+// Nous créons un objet de type Express, et nous lui disons qu'on va manipuler du JSON.
 var app = express();
 app.use(bodyparser.json({ extended: true }))
+
 //Afin de faciliter le routage (les URL que nous souhaitons prendre en charge dans notre API), nous créons un objet Router.
 //C'est à partir de cet objet myRouter, que nous allons implémenter les méthodes.
 var myRouter = express.Router();
 
-// FAUT REGARDER https://scotch.io/tutorials/authenticate-a-node-es6-api-with-json-web-tokens#toc-setup
-myRouter.route(['/personnes', '/personnes/[0-9]+', '/inscrire', '/roles', '/produits', '/produits/[0-9]+', '/activites'])
+//On defini les routes empruntable
+myRouter.route(['/personnes', '/personnes/[0-9]+', '/inscrires', '/roles', '/produits', '/produits/[0-9]+', '/activites'])
+
       // GET
       .get(function (req, res) {
 
@@ -36,7 +39,7 @@ myRouter.route(['/personnes', '/personnes/[0-9]+', '/inscrire', '/roles', '/prod
             var array = []
             if ((table == "produits" || table == "activites") && !req.headers.auth) {
 
-                  //On execute la requête SQL et on recupere la reponse
+                  //On execute la requête SQL et on recupere la reponse dans le tableau "array"
                   bdd.select(tableObj, query, isQuery)
                         .then(response => {
                               if (response.length) {
@@ -51,7 +54,7 @@ myRouter.route(['/personnes', '/personnes/[0-9]+', '/inscrire', '/roles', '/prod
 
                         //En cas d'erreurs, on renvoie le status de la requête (pas opti ?)
                         .catch(() => {
-                              res.status(res.statusCode).send("La page recherchée n'éxiste pas !")
+                              res.status(res.statusCode).json({ status: "La page recherchée n'éxiste pas !" })
                         })
             } else {
                   //Code non effectué
@@ -95,17 +98,31 @@ myRouter.route(['/personnes', '/personnes/[0-9]+', '/inscrire', '/roles', '/prod
                   bdd.add(tableObj, req.body, res)
             } else {
 
-                  //Si l'utilisateur possède un token
+                  //Si l'utilisateur possède un token, on ajoute les données a la table
                   if (req.body.token) {
                         console.log("salut")
                         bdd.add(tableObj, req.body, res)
+                        //Sinon, on renvoie "accès refusé !"
+                  } else {
+                        res.json({ status: "Accès refusé !" })
                   }
             }
       })
 
       //PUT
       .put(function (req, res) {
-            bdd.modify(enumTable.table(req.path.split('/')[1]), req.body, res)
+
+            //On recupere d'abord les informations de l'URL
+            var path = req.path.split('/')
+            var table = path[1]
+
+            //On transforme le String "table" en Objet
+            var tableObj = enumTable.table(table)
+
+            //si l'utilisateur possède un token, on modifie la table
+            if (req.body.token) {
+                  bdd.modify(tableObj, req.body, res)
+            }
       })
 
       //DELETE

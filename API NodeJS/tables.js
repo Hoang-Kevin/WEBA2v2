@@ -40,14 +40,17 @@ module.exports.User = connection.sequelize.define('personnes', {
     timestamps: false
 })
 
-module.exports.Inscription = connection.sequelize.define('inscriptions', {
+module.exports.Inscription = connection.sequelize.define('inscrires', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
-    date: {
-        type: Sequelize.DATE,
+    id_activite_id: {
+        type: Sequelize.INTEGER,
+    },
+    id_personne_id: {
+        type: Sequelize.INTEGER,
     }
 }, {
     timestamps: false
