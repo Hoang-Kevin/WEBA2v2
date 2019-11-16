@@ -368,7 +368,8 @@ class MainController extends AbstractController
 		dump($result);
 			
         return $this->render('main/evenement.html.twig', [
-            'Title' => "Bonjour, bonjour"
+            'Title' => "Bonjour, bonjour",
+			'activite'=> $result
         ]);
 	}
 
