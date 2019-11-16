@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Événements{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/evenement.css') }}" media="all" />
+{% endblock %}
+
+{% block body %}
+<div class="background">
+
+  <h1>Événements</h1>
+{% if app.session.get('role') == "BDE" %}
+    <a href="evenement/new"> AJOUTER EVENEMENT </a>
+{% endif %}
+
+{% if activite is defined %}
+{% for activite in activite %}
+	<div class="card-group">
+		<div class="card">
+			<img class="card-img-top" src="{{ activite.image }}" alt="Card image cap">
+				<div class="card-body">
+				<h5 class="card-title">{{activite.nom}}</h5>
+				<p class="card-text">{{activite.description}}</p>
+				<p class="card-text"><small class="text-muted">{{activite.date}}</small></p>
+		  </div>
+		</div>
+	</div>
+{% endfor %}
+{% endif %}
+
+{% if app.session.get('connect') == "true" %}
+	{{ form_start(forminscription) }}
+	<button type="submit" class="btn btn-success">S'inscrire à cet événement</button>
+	{{ form_end(forminscription) }}
+{% endif %}
+
+</div>
+{% endblock %}

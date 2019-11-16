@@ -505,6 +505,88 @@ class MainController extends AbstractController
     }
 
 
+
+    /**
+     *  @Route("/evenement/{id}"), name="evenementperid")
+     */
+    public function evenementperid($id, Request $request) {
+		
+
+		//définition de url
+		$url='http://localhost:3000/activites';
+		$url .= "?id=$id";
+
+		dump($url);
+		
+		//ouverture de la connexion
+		$open_co = curl_init ();
+
+		//configuration de l'envoie et envoie
+		curl_setopt($open_co, CURLOPT_URL,$url );
+		curl_setopt($open_co, CURLOPT_RETURNTRANSFER, true);
+
+		//réponse
+		$return = curl_exec($open_co);
+
+		//décode le json
+		$result = json_decode($return, true);
+		dump($result);
+
+
+
+		$encoders = [new JsonEncoder()];
+		$normalizers = [new ObjectNormalizer()];
+		$serializer = new Serializer($normalizers, $encoders);
+
+		$sess = $request->getSession();
+		$token = $sess->get('token');
+		$NomUser = $sess->get('Nom');
+		$prenom = $sess->get('prenom');
+
+		$data = ['id_activite' => $id];
+		$data['token'] = $token;
+		$data['Nom'] = $NomUser;
+		$data['prenom'] = $prenom;
+
+		dump($data);
+		
+		$form = $this->createFormBuilder($data)
+		->getForm();
+
+		$form->handleRequest($request);
+
+		if($form->isSubmitted()) {
+			$header = [
+				'Accept: application/json',
+				'Content-Type: application/json',
+			];
+			
+			$json_data = $serializer->serialize($data, 'json');
+			
+			//configuration de l'envoie et envoie
+			curl_setopt($open_co, CURLOPT_URL,$url );
+			curl_setopt($open_co, CURLOPT_CUSTOMREQUEST, "POST");
+
+			curl_setopt($open_co, CURLOPT_HTTPHEADER, $header);
+			curl_setopt($open_co, CURLOPT_POSTFIELDS, $json_data);
+
+			curl_setopt($open_co, CURLOPT_RETURNTRANSFER, true);
+
+			$return = curl_exec($open_co);
+			dump($request);
+			//fermeture de la connection
+			curl_close($open_co);
+		}
+        return $this->render('main/evenementperid.html.twig', [
+            'Title' => "Bonjour, bonjour",
+			'activite'=> $result ,
+			'forminscription' => $form->createView()
+        ]);
+	}
+
+
+
+
     /**
      *  @Route("/connexion"), name="connexion")
      */
