@@ -10,7 +10,7 @@
 <div class="background">
 
   <h1>Événements</h1>
-{% if app.session.get('role') == "BDE" %}
+{% if (app.session.get('role') == "BDE") or (app.session.get('role') == "CESI") %}
     <a href="evenement/new"> AJOUTER EVENEMENT </a>
 {% endif %}
 

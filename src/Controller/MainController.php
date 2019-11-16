@@ -543,10 +543,12 @@ class MainController extends AbstractController
 		$NomUser = $sess->get('Nom');
 		$prenom = $sess->get('prenom');
 
-		$data = ['id_activite' => $id];
-		$data['token'] = $token;
-		$data['Nom'] = $NomUser;
-		$data['prenom'] = $prenom;
+		$data = [
+			'activite_id' => $id,
+			'token' => $token,
+			'Nom' => $NomUser,
+			'prenom' => $prenom	
+	];
 
 		dump($data);
 		
@@ -575,7 +577,7 @@ class MainController extends AbstractController
 			$return = curl_exec($open_co);
 			dump($request);
 			//fermeture de la connection
-			curl_close($open_co);
+			curl_close($open_co); 
 		}
         return $this->render('main/evenementperid.html.twig', [
             'Title' => "Bonjour, bonjour",

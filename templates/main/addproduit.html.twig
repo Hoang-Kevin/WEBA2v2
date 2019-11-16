@@ -9,7 +9,7 @@
 {% form_theme formAddProduit 'bootstrap_4_Layout.html.twig' %}
 
 {% block body %}
-{% if app.session.get('role') == "BDE" %}
+{% if (app.session.get('role') == "BDE") or (app.session.get('role') == "CESI") %}
 <div class="background">
 	<h3>Formulaire ajouter un produit</h3>
 
