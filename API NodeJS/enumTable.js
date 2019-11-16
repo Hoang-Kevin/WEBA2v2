@@ -1,12 +1,10 @@
 const tables = require('./tables')
 
-
+//Recupere la table et renvoie l'objet correspondant
 module.exports.table = function (table) {
     switch (table) {
         case "personnes":
             return tables.User
-        // case "inscriptions":
-        //     return tables.Inscription
         case "roles":
             return tables.Role
         case "produits":

@@ -142,10 +142,14 @@ app.listen(port, hostname, function () {
 
 function connect(req, res) {
       var result = {}
+
+      //On verifie si le mod de passe est correct
       bdd.connect(enumTable.table(req.path.split('/')[1]), req.body)
             .then(response => {
                   if (response) {
                         status = 200
+
+                        //On recupere le role de l'utilisateur
                         bdd.verifRole(response.dataValues.adressemail)
                               .then(responseTest => {
                                     var { role, prenom, nom } = responseTest[0][0]
