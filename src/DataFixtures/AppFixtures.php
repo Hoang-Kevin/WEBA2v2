@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Component\Validator\Constraints\DateTime;
 use App\Entity\Personnes;
 use App\Entity\Roles;
 use App\Entity\Activites;
@@ -26,7 +27,7 @@ class AppFixtures extends Fixture
 		$manager->persist($role);
 		
 		$categorie = new Categories();
-		$categorie->setCategorie('Vêtement');
+		$categorie->setCategorie('Vetements');
 		$manager->persist($categorie);
 		
 		$produit = new Produits();
@@ -75,11 +76,12 @@ class AppFixtures extends Fixture
 		$stocker->setQuantite('1');		
 		$manager->persist($stocker);
 		
+		/*
 		$activite = new Activites();
 		$activite->setIdPersonne($personne);
 		$activite->setDescription('Foot salle chaque jeudi après-midi');
 		$activite->setImage('"https://via.placeholder.com/300x150"');
-		$activite->setDate(new \DateTime('2019-11-22'));
+		$activite->setDate(new DateTime('2019-11-11'));
 		$activite->setCout('TRUE');
 		$activite->setRecurrence('TRUE');
 		$activite->setValide('TRUE');
@@ -95,12 +97,12 @@ class AppFixtures extends Fixture
 		$voter->setIdActivite($activite);
 		$voter->setIdPersonne($personne);
 		$manager->persist($voter);
-
+		
 		$photo = new Photos();
 		$photo->setIdActivite($activite);
 		$photo->setIdPersonne($personne);
 		$manager->persist($photo);
-		
+		*/
 		//Deuxièmes Champs
 		$role = new Roles();
 		$role->setRole('BDE');
@@ -144,12 +146,12 @@ class AppFixtures extends Fixture
 		$personne->setMotdepasse(crypt('AimeLaMusique1990', 'dkPOpjfiIsjni16/idjsdi:AZEIIjsdquIisdsji/1839'));
 		$personne->setValide('TRUE');
 		$manager->persist($personne);
-
+		/*
 		$activite = new Activites();
 		$activite->setIdPersonne($personne);
 		$activite->setDescription('LAN de jeux vidéos lors de la journée de vendredi avec entrée à 3€');
 		$activite->setImage('"https://via.placeholder.com/300x150"');
-		$activite->setDate(new \DateTime('2019-11-22'));
+		$activite->setDate(new DateTime('2019-11-11'));
 		$activite->setCout('TRUE');
 		$activite->setRecurrence('FALSE');
 		$activite->setValide('TRUE');
@@ -176,7 +178,7 @@ class AppFixtures extends Fixture
 		$commentaire->setIdPersonne($personne);
 		$commentaire->setCommentaire('ça va être trop fun XD');
 		$manager->persist($commentaire);
-		
+		*/
 		//Troisièmes Champs
 		$role = new Roles();
 		$role->setRole('CESI');
@@ -203,12 +205,12 @@ class AppFixtures extends Fixture
 		$stocker->setIdCommande($commande);
 		$stocker->setQuantite('2');		
 		$manager->persist($stocker);
-		
+		/*
 		$activite = new Activites;
 		$activite->setIdPersonne($personne);
 		$activite->setDescription('Jeux de rôle sur table Stellaris le jeudi après midi une fois par mois');
 		$activite->setImage('"https://via.placeholder.com/300x150"');
-		$activite->setDate(new \DateTime('2019-11-22'));
+		$activite->setDate(new DateTime('2019-11-11'));
 		$activite->setCout('FALSE');
 		$activite->setRecurrence('TRUE');
 		$activite->setValide('TRUE');
@@ -229,7 +231,8 @@ class AppFixtures extends Fixture
 		$photo->setIdActivite($activite);
 		$photo->setIdPersonne($personne);
 		$manager->persist($photo);
+		*/
+		$manager->flush();
 		
-        $manager->flush();
     }
 }
