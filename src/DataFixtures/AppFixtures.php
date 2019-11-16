@@ -79,7 +79,7 @@ class AppFixtures extends Fixture
 		$activite->setIdPersonne($personne);
 		$activite->setDescription('Foot salle chaque jeudi après-midi');
 		$activite->setImage('"https://via.placeholder.com/300x150"');
-		$activite->setDate(new \DateTime('2019/11/22'));
+		$activite->setDate(new \DateTime('2019-11-22'));
 		$activite->setCout('TRUE');
 		$activite->setRecurrence('TRUE');
 		$activite->setValide('TRUE');
@@ -149,7 +149,7 @@ class AppFixtures extends Fixture
 		$activite->setIdPersonne($personne);
 		$activite->setDescription('LAN de jeux vidéos lors de la journée de vendredi avec entrée à 3€');
 		$activite->setImage('"https://via.placeholder.com/300x150"');
-		$activite->setDate(new \DateTime('2019/11/22'));
+		$activite->setDate(new \DateTime('2019-11-22'));
 		$activite->setCout('TRUE');
 		$activite->setRecurrence('FALSE');
 		$activite->setValide('TRUE');
@@ -208,7 +208,7 @@ class AppFixtures extends Fixture
 		$activite->setIdPersonne($personne);
 		$activite->setDescription('Jeux de rôle sur table Stellaris le jeudi après midi une fois par mois');
 		$activite->setImage('"https://via.placeholder.com/300x150"');
-		$activite->setDate(new \DateTime('2019/11/22'));
+		$activite->setDate(new \DateTime('2019-11-22'));
 		$activite->setCout('FALSE');
 		$activite->setRecurrence('TRUE');
 		$activite->setValide('TRUE');
