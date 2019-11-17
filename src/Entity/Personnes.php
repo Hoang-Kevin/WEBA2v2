@@ -42,6 +42,11 @@ class Personnes
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Regex(
+     *      pattern="/^\w+((@viacesi\.fr)|(@cesi\.fr))/",
+     *      message="Your mail address is incorrect"
+     * 
+     * )
      */
     private $adressemail;
 
@@ -50,7 +55,7 @@ class Personnes
      * 
      * @Assert\Regex(
      *      pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d$@$!%*?&]{8,}/",
-     *      message="Your mail address must contain 1 uppercase letter, 1 lowercase, 1 number and must contain more than 8 characters"
+     *      message="Your password must contain 1 uppercase letter, 1 lowercase, 1 number and must contain more than 8 characters"
      * 
      * )
      */
