@@ -1,14 +1,20 @@
 const connection = require('./config')
 const Sequelize = require('sequelize')
 
+//On créer les objets representants les tables de la BDD
+
 module.exports.User = connection.sequelize.define('personnes', {
     id: {
+        //Type du champ
         type: Sequelize.INTEGER,
+        //Clé primaire
         primaryKey: true,
+        //Auto increment
         autoIncrement: true
     },
     id_role_id: {
         type: Sequelize.STRING,
+        //Clé étrangère
         foreignKey: true
     },
     nom: {
@@ -37,6 +43,7 @@ module.exports.User = connection.sequelize.define('personnes', {
     }
 }, {
     underscored: true,
+    //
     timestamps: false
 })
 
