@@ -19,7 +19,7 @@ app.use(bodyparser.json({ extended: true }))
 var myRouter = express.Router();
 
 //On defini les routes empruntable
-myRouter.route(['/personnes', '/personnes/[0-9]+', '/inscrires', '/roles', '/produits', '/produits/[0-9]+', '/activites'])
+myRouter.route(['/personnes', '/personnes/[0-9]+', '/inscrires', '/roles', '/produits', '/produits/[0-9]+', '/activites', '/produits/top3'])
 
       // GET
       .get(function (req, res) {
@@ -56,57 +56,51 @@ myRouter.route(['/personnes', '/personnes/[0-9]+', '/inscrires', '/roles', '/pro
                         .catch(() => {
                               res.status(res.statusCode).json({ status: "La page recherchée n'éxiste pas !" })
                         })
-            } else {
-                  //Code non effectué
+            } else if (table == "inscrires") {
 
-                  console.log("eh non")
-                  //       if (req.body.token) {
-                  //             bdd.select(table, id)
-                  //                   .then(response => {
-                  //                         if (response.length) {
-                  //                               for (let i = 0; i < response.length; i++) {
-                  //                                     array.push(response[i].dataValues)
-                  //                               }
-                  //                         } else {
-                  //                               array.push(response.dataValues)
-                  //                         }
-                  //                         res.json(array)
-                  //                   })
-                  //       } else {
-                  //             res.json({ message: false })
-                  //       }
             }
       })
       //POST
       .post(function (req, res) {
+            var validToken
+            var mail = checkToken(req.body.token)
+            bdd.verifRole(mail)
+                  .then(response => {
+                        console.log(response)
+                        if (response[0][0].role == "BDE") {
+                              validToken = true
+                        } else {
+                              validToken = false
+                        }
 
-            //On recupere d'abord les informations de l'URL
-            var path = req.path.split('/')
-            var table = path[1]
 
-            //On transforme le String "table" en Objet
-            var tableObj = enumTable.table(table)
+                        //On recupere d'abord les informations de l'URL
+                        var path = req.path.split('/')
+                        var table = path[1]
 
-            //Si l'utilisateur souhaite se connecter, on lance la fonction "connect"
-            if (req.query.connect == "true") {
-                  console.log(req.body.adressemail)
-                  connect(req, res)
+                        //On transforme le String "table" en Objet
+                        var tableObj = enumTable.table(table)
 
-            } else if (req.query.inscription == "true") {
-                  console.log("inscription en cours")
-                  //Si l'utilisateur veut d'inscrire, on l'ajoute dans la BDD
-                  bdd.add(tableObj, req.body, res)
-            } else {
+                        //Si l'utilisateur souhaite se connecter, on lance la fonction "connect"
+                        if (req.query.connect == "true") {
+                              console.log(req.body.adressemail)
+                              connect(req, res)
 
-                  //Si l'utilisateur possède un token, on ajoute les données a la table
-                  if (req.body.token) {
-                        console.log("salut")
-                        bdd.add(tableObj, req.body, res)
-                        //Sinon, on renvoie "accès refusé !"
-                  } else {
-                        res.json({ status: "Accès refusé !" })
-                  }
-            }
+                        } else if (req.query.inscription == "true") {
+                              console.log("inscription en cours")
+                              //Si l'utilisateur veut d'inscrire, on l'ajoute dans la BDD
+                              bdd.add(tableObj, req.body, res)
+                        } else {
+
+                              //Si l'utilisateur possède un token valide, on ajoute les données a la table
+                              if (validToken) {
+                                    bdd.add(tableObj, req.body, res)
+                                    //Sinon, on renvoie "accès refusé !"
+                              } else {
+                                    res.json({ status: "Accès refusé !" })
+                              }
+                        }
+                  })
       })
 
       //PUT
@@ -128,7 +122,7 @@ myRouter.route(['/personnes', '/personnes/[0-9]+', '/inscrires', '/roles', '/pro
       //DELETE
       .delete(function (req, res) {
             bdd.delete(enumTable.table(req.path.split('/')[1]), req.body)
-            res.json({ message: "Suppression d'une piscine dans la liste", methode: req.method });
+            res.json({ deleted: true })
       });
 
 // Nous demandons à l'application d'utiliser notre routeur
@@ -171,8 +165,8 @@ function connect(req, res) {
 }
 
 // Pour l'instant on considère que le token se trouve dans le body
-function decodeToken(token) {
+function checkToken(token) {
       var decodedToken = jsToken.verify(token, secret, "HS256")
-      decodedMail = decodedToken.body.mail
-      return decodedMail;
+      var decodedMail = decodedToken.body.mail
+      return decodedMail
 }
