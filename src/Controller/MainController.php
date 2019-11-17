@@ -83,7 +83,66 @@ class MainController extends AbstractController
 			'produit'=> $result
         ]);
 
-    }
+	}
+	
+	/**
+     *  @Route("/boutique/vetements"), name="vetements")
+     */
+    public function vetements() {
+		
+		//définition de url
+		$url='http://localhost:3000/produits?id_categorie_id=1';
+		
+		//ouverture de la connexion
+		$open_co = curl_init ();
+
+		//configuration de l'envoie et envoie
+		curl_setopt($open_co, CURLOPT_URL,$url );
+		curl_setopt($open_co, CURLOPT_RETURNTRANSFER, true);
+
+		//réponse
+		$return = curl_exec($open_co);
+
+		//décode le json
+		$result = json_decode($return, true);
+		dump($result);
+			
+        return $this->render('main/vetement.html.twig', [
+            'Title' => "Bonjour, bonjour",
+			'produit'=> $result
+        ]);
+
+	}
+
+	/**
+     *  @Route("/boutique/goodies"), name="goodies")
+     */
+    public function goodies() {
+		
+		//définition de url
+		$url='http://localhost:3000/produits?id_categorie_id=2';
+		
+		//ouverture de la connexion
+		$open_co = curl_init ();
+
+		//configuration de l'envoie et envoie
+		curl_setopt($open_co, CURLOPT_URL,$url );
+		curl_setopt($open_co, CURLOPT_RETURNTRANSFER, true);
+
+		//réponse
+		$return = curl_exec($open_co);
+
+		//décode le json
+		$result = json_decode($return, true);
+		dump($result);
+			
+        return $this->render('main/vetement.html.twig', [
+            'Title' => "Bonjour, bonjour",
+			'produit'=> $result
+        ]);
+
+	}
+	
 
     /**
      *  @Route("/boutique/add"), name="boutique")
@@ -192,80 +251,77 @@ class MainController extends AbstractController
 	/**
      * @Route("/boutique/panier", name="panier")
      */
-    public function panier()
+    public function panier(Request $request)
     {
+		$allcookies = $request->cookies;
+		
+
+
+
+
         return $this->render('main/panier.html.twig', [
         ]);
 	}
 	
-
-    /**
-     *  @Route("/boutique/sup"), name="boutique")
+	/**
+     *  @Route("/boutique/{id}"), name="boutiqueperid")
      */
-    public function supboutique(Request $request) {
+    public function boutiqueperid($id, Request $request) {
+		
+		//définition de url
+		$url='http://localhost:3000/produits';
+		$url .= "?id=$id";
+		
+		//ouverture de la connexion
+		$open_co = curl_init ();
 
-		//création d'un object personne vide
-		$produit = new Produits();
+		//configuration de l'envoie et envoie
+		curl_setopt($open_co, CURLOPT_URL,$url );
+		curl_setopt($open_co, CURLOPT_RETURNTRANSFER, true);
 
-		//paramètre du formulaire relier aux attributs de l'object Personne
-		$form = $this->createFormBuilder($produit)
-					 ->add('nom', TextType::class)
-					 ->getForm();
+		//réponse
+		$return = curl_exec($open_co);
 
-		//traite le formulaire
+		//décode le json
+		$result = json_decode($return, true);
+		dump($result);
+
+
+		$data = [ 'panier' => true ];
+		
+		$form = $this->createFormBuilder($data)
+		->getForm();
+
 		$form->handleRequest($request);
 
-		//dump = info dev
-		dump($produit);
+		if($form->isSubmitted()) {
+			$response = new Response();
+			$allcookies = $request->cookies;
+			$nbpanier = $allcookies->get('nbpanier');
 
-		//si le formulaire a été soumis et est valide
-		if($form->isSubmitted() && $form->isValid()) {
-
-			//transforme en json les réponses du formulaire
-			$login["data"]=json_encode($produit);
-			$url = 'htpp://localhost:3000/users';
-
-			//ouverture de la connexion
-			$open_co=curl_init();
-
-			//configuration de l'envoie et envoie
-			curl_setopt($open_co, CURLOPT_URL, $url);
-			curl_setopt($open_co, CURLOPT_CUSTOMREQUEST, "DELETE");
-			curl_setopt($open_co, CURLOPT_POSTFIELDS, $login);
-			curl_setopt($open_co, CURLOPT_RETURNTRANSFER, true);
-
-			//réponse
-			$return = curl_exec($open_co);
-
-			//fermeture de la connection
-			curl_close($open_co);
-
-			//décode le json
-			$result = json_decode($return);
-
-			//si connected dans $result prends la valeur true le produit est supprmier sinon il n'est pas supprimer
-			if($result['connected']==TRUE)
-			{
-				?>
-				<script>alert("le produit est supprimé de la boutique !")</script>
-				<?php
-				header("Status: 301 Moved Permanently", false, 301);
-				header('Location : /boutique');
-				exit;
+			if( $nbpanier == NULL) {
+				$response->headers->setCookie(Cookie::create('nbpanier', 0));
 			}
-			else
-			{
-				?>
-				<script>alert("le produit n'a pas été supprimé de la boutique !")</script>
-				<?php
-			}
-		}
 
-		//envoie le formulaire pour le construire sur la page web
-        return $this->render('main/supproduit.html.twig', [
-            'formSupProduit' => $form->createView()
-		]);
-    }
+			$nbnewpanier = $nbpanier+1;
+			$response->headers->setCookie(Cookie::create('nbpanier', $nbnewpanier));
+			$response->headers->setCookie(Cookie::create("id_produit$nbnewpanier", $id));
+			$response->send();
+
+			return $this->redirecttoRoute('panier');
+
+		}	
+	
+		
+			
+        return $this->render('main/boutiqueperid.html.twig', [
+            'Title' => "Bonjour, bonjour",
+			'produit'=> $result,
+			'formpanier' => $form->createView()
+
+        ]);
+
+	}
 
     /**
      *  @Route("/inscription"), name="inscription")
@@ -562,11 +618,11 @@ class MainController extends AbstractController
 				'Accept: application/json',
 				'Content-Type: application/json',
 			];
-			
+			$url2 = 'http://localhost:3000/inscrires';
 			$json_data = $serializer->serialize($data, 'json');
 			
 			//configuration de l'envoie et envoie
-			curl_setopt($open_co, CURLOPT_URL,$url );
+			curl_setopt($open_co, CURLOPT_URL,$url2 );
 			curl_setopt($open_co, CURLOPT_CUSTOMREQUEST, "POST");
 
 			curl_setopt($open_co, CURLOPT_HTTPHEADER, $header);

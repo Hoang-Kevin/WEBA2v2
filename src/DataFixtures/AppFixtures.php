@@ -35,7 +35,7 @@ class AppFixtures extends Fixture
 		$produit->setNom('Pull Cesi');
 		$produit->setDescription('Pull Cesi 100% coton floqué avec les emblêmes du Cesi');
 		$produit->setPrix('35');
-		$produit->setimage('"https://via.placeholder.com/300x150"');
+		$produit->setimage('https://via.placeholder.com/300x150');
 		$manager->persist($produit);
 
 		$produit = new Produits();
@@ -43,7 +43,7 @@ class AppFixtures extends Fixture
 		$produit->setNom('Polo Cesi');
 		$produit->setDescription('Polo Cesi 100% coton floqué avec les emblêmes du Cesi');
 		$produit->setPrix('20');
-		$produit->setimage('"https://via.placeholder.com/300x150"');
+		$produit->setimage('https://via.placeholder.com/300x150');
 		$manager->persist($produit);
 		
 		$produit = new Produits();
@@ -51,7 +51,7 @@ class AppFixtures extends Fixture
 		$produit->setNom('T-shirt Wild Box');
 		$produit->setDescription('T-shirt Wild Box 100% coton floqué avec les emblêmes personnalisés des avatars Wild Box');
 		$produit->setPrix('25');
-		$produit->setimage('"https://via.placeholder.com/300x150"');
+		$produit->setimage('https://via.placeholder.com/300x150');
 		$manager->persist($produit);
 		
 		$personne = new Personnes();
@@ -117,7 +117,7 @@ class AppFixtures extends Fixture
 		$produit->setNom('Casquet Cesi');
 		$produit->setDescription('Casquet Cesi 100% coton floqué avec les emblêmes du Cesi');
 		$produit->setPrix('10');
-		$produit->setimage('"https://via.placeholder.com/300x150"');
+		$produit->setimage('https://via.placeholder.com/300x150');
 		$manager->persist($produit);
 		
 		$produit = new Produits();
@@ -125,7 +125,7 @@ class AppFixtures extends Fixture
 		$produit->setNom('Bonnet Cesi');
 		$produit->setDescription('Bonnet Cesi 100% coton floqué avec les emblêmes du Cesi');
 		$produit->setPrix('15');
-		$produit->setimage('"https://via.placeholder.com/300x150"');
+		$produit->setimage('https://via.placeholder.com/300x150');
 		$manager->persist($produit);
 		
 		$produit = new Produits();
@@ -133,7 +133,7 @@ class AppFixtures extends Fixture
 		$produit->setNom('Bob Cesi');
 		$produit->setDescription('Bob Cesi 100% coton floqué avec les emblêmes du Cesi');
 		$produit->setPrix('20');
-		$produit->setimage('"https://via.placeholder.com/300x150"');
+		$produit->setimage('https://via.placeholder.com/300x150');
 		$manager->persist($produit);
 
 		$personne = new Personnes();
