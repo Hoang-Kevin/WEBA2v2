@@ -25,7 +25,6 @@ module.exports.select = function (table, query, isQuery) {
 
 //Fonction appelée lors de la connexion
 module.exports.connect = function (table, jsonData) {
-    //console.log(jsonData.adressemail)
     return table.findOne({ where: { adressemail: jsonData.adressemail, motdepasse: jsonData.motdepasse } })
 }
 
@@ -40,7 +39,6 @@ module.exports.add = function (table, jsonData, res) {
             //On check si l'entrée existe déjà
             table.findOne({ where: { adressemail: jsonData.adressemail } })
                 .then(function (user) {
-
                     //Si elle existe pas, on ajoute les données
                     if (!user) {
                         table.create({ id_role_id: 1, nom: jsonData.Nom, prenom: jsonData.prenom, adressemail: jsonData.adressemail, motdepasse: jsonData.motdepasse, localisation: jsonData.localisation, campus: jsonData.campus })
@@ -59,7 +57,6 @@ module.exports.add = function (table, jsonData, res) {
                     var { id } = response[0][0]
                     table.findOne({ where: { id_personne_id: id, description: jsonData.description, nom: jsonData.nom, image: jsonData.image/*, date: jsonData.date*/, recurrence: jsonData.recurrence, cout: jsonData.cout, valide: jsonData.valide } })
                         .then(activité => {
-                            console.log(activité)
                             if (!activité) {
                                 table.create({ id_personne_id: id, description: jsonData.description, nom: jsonData.nom, image: jsonData.image, date: jsonData.date, recurrence: jsonData.recurrence, cout: jsonData.cout, valide: jsonData.valide })
                                 res.json({ added: true })
