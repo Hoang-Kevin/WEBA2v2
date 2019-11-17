@@ -1,6 +1,7 @@
 const connection = require('./config.js')
 const table = require('./enumTable')
 const Sequelize = require('sequelize')
+const csv = require('./csvGen')
 
 //Message d'authentification dans la console
 connection.sequelize.authenticate()
@@ -60,6 +61,7 @@ module.exports.add = function (table, jsonData, res) {
                             if (!activité) {
                                 table.create({ id_personne_id: id, description: jsonData.description, nom: jsonData.nom, image: jsonData.image, date: jsonData.date, recurrence: jsonData.recurrence, cout: jsonData.cout, valide: jsonData.valide })
                                 res.json({ added: true })
+                                csv.fileGen(jsonData.id_activite, activité)
                             } else {
                                 res.json({ added: false })
                             }
@@ -92,6 +94,7 @@ module.exports.add = function (table, jsonData, res) {
                             if (!inscription) {
                                 table.create({ id_personne_id: id, id_activite_id: jsonData.activite_id })
                                 res.json({ added: true })
+
                             } else {
                                 res.json({ added: false })
                             }

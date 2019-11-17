@@ -37,7 +37,7 @@ myRouter.route(['/personnes', '/personnes/[0-9]+', '/inscrires', '/roles', '/pro
             var isQuery = Object.keys(query).length == 0 ? false : true
 
             var array = []
-            if ((table == "produits" || table == "activites") && !req.headers.auth) {
+            if ((table == "produits" || table == "activites" || table == "commenters") && !req.headers.auth) {
 
                   //On execute la requête SQL et on recupere la reponse dans le tableau "array"
                   bdd.select(tableObj, query, isQuery)
@@ -62,36 +62,36 @@ myRouter.route(['/personnes', '/personnes/[0-9]+', '/inscrires', '/roles', '/pro
       })
       //POST
       .post(function (req, res) {
-            var validToken
-            var mail = checkToken(req.body.token)
-            bdd.verifRole(mail)
-                  .then(response => {
-                        console.log(response)
-                        if (response[0][0].role == "BDE") {
-                              validToken = true
-                        } else {
-                              validToken = false
-                        }
 
 
-                        //On recupere d'abord les informations de l'URL
-                        var path = req.path.split('/')
-                        var table = path[1]
 
-                        //On transforme le String "table" en Objet
-                        var tableObj = enumTable.table(table)
+            //On recupere d'abord les informations de l'URL
+            var path = req.path.split('/')
+            var table = path[1]
 
-                        //Si l'utilisateur souhaite se connecter, on lance la fonction "connect"
-                        if (req.query.connect == "true") {
-                              console.log(req.body.adressemail)
-                              connect(req, res)
+            //On transforme le String "table" en Objet
+            var tableObj = enumTable.table(table)
 
-                        } else if (req.query.inscription == "true") {
-                              console.log("inscription en cours")
-                              //Si l'utilisateur veut d'inscrire, on l'ajoute dans la BDD
-                              bdd.add(tableObj, req.body, res)
-                        } else {
+            //Si l'utilisateur souhaite se connecter, on lance la fonction "connect"
+            if (req.query.connect == "true") {
+                  console.log(req.body.adressemail)
+                  connect(req, res)
 
+            } else if (req.query.inscription == "true") {
+                  console.log("inscription en cours")
+                  //Si l'utilisateur veut d'inscrire, on l'ajoute dans la BDD
+                  bdd.add(tableObj, req.body, res)
+            } else {
+                  var validToken
+                  var mail = checkToken(req.body.token)
+                  bdd.verifRole(mail)
+                        .then(response => {
+                              console.log(response)
+                              if (response[0][0].role == "BDE") {
+                                    validToken = true
+                              } else {
+                                    validToken = false
+                              }
                               //Si l'utilisateur possède un token valide, on ajoute les données a la table
                               if (validToken) {
                                     bdd.add(tableObj, req.body, res)
@@ -99,9 +99,10 @@ myRouter.route(['/personnes', '/personnes/[0-9]+', '/inscrires', '/roles', '/pro
                               } else {
                                     res.json({ status: "Accès refusé !" })
                               }
-                        }
-                  })
+                        })
+            }
       })
+
 
       //PUT
       .put(function (req, res) {
