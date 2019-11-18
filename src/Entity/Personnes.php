@@ -43,7 +43,7 @@ class Personnes
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Regex(
-     *      pattern="/^\w+((@viacesi\.fr)|(@cesi\.fr))/",
+     *      pattern="/^\w.+((@viacesi\.fr)|(@cesi\.fr))/",
      *      message="Your mail address is incorrect"
      * 
      * )

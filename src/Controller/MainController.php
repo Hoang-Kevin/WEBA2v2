@@ -50,8 +50,32 @@ class MainController extends AbstractController
      */
     public function home() {
 
+		//définition de url
+		$url='http://localhost:3000/activites';
+		
+		//ouverture de la connexion
+		$open_co = curl_init ();
+
+		//configuration de l'envoie et envoie
+		curl_setopt($open_co, CURLOPT_URL,$url );
+		curl_setopt($open_co, CURLOPT_RETURNTRANSFER, true);
+
+		//réponse
+		$return = curl_exec($open_co);
+
+		//décode le json
+		$result = json_decode($return, true);
+		dump($result);
+		$event0 = $result[0];
+		$event1 = $result[1];
+		$event2 = $result[2];
+
         return $this->render('main/home.html.twig', [
-          
+            'Title' => "Bonjour, bonjour",
+			'activite'=> $result,
+			'activite1' => $event0,
+			'activite2' => $event1,
+			'activite3' => $event2
         ]);
 
     }
@@ -635,6 +659,7 @@ class MainController extends AbstractController
 			//fermeture de la connection
 			curl_close($open_co); 
 		}
+		
         return $this->render('main/evenementperid.html.twig', [
             'Title' => "Bonjour, bonjour",
 			'activite'=> $result ,

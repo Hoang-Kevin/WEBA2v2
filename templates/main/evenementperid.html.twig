@@ -26,6 +26,16 @@
 		  </div>
 		</div>
 	</div>
+
+	{% if (app.session.get('role') == "BDE") or (app.session.get('role') == "CESI") %}
+	{% set id = "evenement#{activite.id}" %}
+    	<form method="get" action="{{ asset("csv/#{id}.csv") }}">
+   		<button type="submit">Download the list of students</button>
+		</form>
+	{% endif %}
+
+
+
 {% endfor %}
 {% endif %}
 
