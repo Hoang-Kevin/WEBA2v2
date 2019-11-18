@@ -61,7 +61,6 @@ module.exports.add = function (table, jsonData, res) {
                             if (!activité) {
                                 table.create({ id_personne_id: id, description: jsonData.description, nom: jsonData.nom, image: jsonData.image, date: jsonData.date, recurrence: jsonData.recurrence, cout: jsonData.cout, valide: jsonData.valide })
                                 res.json({ added: true })
-                                csv.fileGen(jsonData.id_activite, activité)
                             } else {
                                 res.json({ added: false })
                             }
@@ -93,8 +92,10 @@ module.exports.add = function (table, jsonData, res) {
                         .then(inscription => {
                             if (!inscription) {
                                 table.create({ id_personne_id: id, id_activite_id: jsonData.activite_id })
-                                res.json({ added: true })
-
+                                    .then(() => {
+                                        res.json({ added: true })
+                                        csv.fileGen(jsonData.activite_id)
+                                    })
                             } else {
                                 res.json({ added: false })
                             }
