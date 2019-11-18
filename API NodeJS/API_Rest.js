@@ -56,8 +56,6 @@ myRouter.route(['/personnes', '/personnes/[0-9]+', '/inscrires', '/roles', '/pro
                         .catch(() => {
                               res.status(res.statusCode).json({ status: "La page recherchée n'éxiste pas !" })
                         })
-            } else if (table == "inscrires") {
-
             }
       })
       //POST
@@ -80,6 +78,8 @@ myRouter.route(['/personnes', '/personnes/[0-9]+', '/inscrires', '/roles', '/pro
             } else if (req.query.inscription == "true") {
                   console.log("inscription en cours")
                   //Si l'utilisateur veut d'inscrire, on l'ajoute dans la BDD
+                  bdd.add(tableObj, req.body, res)
+            } else if (table == "inscrires") {
                   bdd.add(tableObj, req.body, res)
             } else {
                   var validToken
